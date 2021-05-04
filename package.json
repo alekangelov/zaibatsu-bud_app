@@ -8,25 +8,32 @@
       "buildResources": "public"
     }
   },
+  "homepage": "./",
   "main": "build/electron/main.js",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-regular-svg-icons": "^5.15.3",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "electron-store": "^8.0.0",
     "react": "^17.0.2",
+    "react-app-rewired": "^2.1.8",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "build": "react-scripts build",
+    "build": "rescripts build",
     "start": "ELECTRON_ENABLE_LOGGING=true && nf start -p 5000",
-    "test": "react-scripts test",
+    "test": "rescripts test",
     "build-electron": "tsc --project electron/tsconfig.json",
     "start-electron": "ts-node --skip-project electron/connect-electron.ts",
     "watch-electron": "tsc --watch --project electron/tsconfig.json",
-    "start-react": "cross-env BROWSER=none react-scripts start",
+    "start-react": "cross-env BROWSER=none rescripts start",
     "dist": "npm run build && npm run build-electron && electron-builder build -c.extraMetadata.main=build/electron/main.js"
   },
   "eslintConfig": {
@@ -48,6 +55,9 @@
     ]
   },
   "devDependencies": {
+    "@rescripts/cli": "^0.0.14",
+    "@rescripts/rescript-env": "^0.0.12",
+    "@types/electron-config": "^3.2.2",
     "@types/jest": "^26.0.15",
     "@types/node": "^14.14.43",
     "@types/react": "^17.0.0",

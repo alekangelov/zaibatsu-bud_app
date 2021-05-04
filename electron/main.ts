@@ -1,7 +1,11 @@
-import { app, BrowserWindow, Menu, screen, remote } from "electron";
+import { app, BrowserWindow, Menu, screen, remote, ipcMain } from "electron";
 import * as path from "path";
 import * as url from "url";
 import log from "electron-log";
+import * as events from "./events";
+const Store = require("electron-store");
+
+const store = new Store();
 
 // import menuTemplate from './menu';
 
@@ -12,35 +16,26 @@ const DIMENSIONS = {
   H: 720,
 };
 const DEFAULTS = {
-  frame: true,
-  transparent: true,
+  width: DIMENSIONS.W,
+  height: DIMENSIONS.H,
+  frame: process.platform === "linux",
+  transparent: false,
+  x: 50,
+  y: 50,
+  webPreferences: {
+    nodeIntegration: true,
+    contextIsolation: false,
+    enableRemoteModule: true,
+  },
 };
 
 function createWindow() {
   const displays = screen.getAllDisplays();
-  const externalDisplay = displays.find((display) => {
-    return display.bounds.x !== 0 || display.bounds.y !== 0;
-  });
+  const options = Object.assign({ ...DEFAULTS }, store.get("winBounds"));
   let mainWindow: BrowserWindow;
-  if (externalDisplay) {
-    console.log("jakoto 1");
-    mainWindow = new BrowserWindow({
-      width: DIMENSIONS.W,
-      height: DIMENSIONS.H,
-      x: externalDisplay.bounds.x + 50,
-      y: externalDisplay.bounds.y + 50,
-      ...DEFAULTS,
-    });
-  } else {
-    console.log("jakoto 2");
-    mainWindow = new BrowserWindow({
-      width: DIMENSIONS.W,
-      height: DIMENSIONS.H,
-      x: 50,
-      y: 50,
-      ...DEFAULTS,
-    });
-  }
+  mainWindow = new BrowserWindow({
+    ...options,
+  });
 
   // const menu = Menu.buildFromTemplate(menuTemplate);
   // Menu.setApplicationMenu(menu);
@@ -58,6 +53,7 @@ function createWindow() {
     mainWindow = null;
   });
   mainWindow.on("close", () => {
+    store.set("winBounds", mainWindow.getBounds());
     mainWindow = null;
   });
 }
@@ -75,3 +71,5 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
+events.common();
