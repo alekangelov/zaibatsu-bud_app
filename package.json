@@ -1,0 +1,63 @@
+{
+  "name": "zaibatsu-bud_app",
+  "version": "0.1.0",
+  "private": true,
+  "build": {
+    "appId": "com.electron.zaibatsu-bud_app",
+    "directories": {
+      "buildResources": "public"
+    }
+  },
+  "main": "build/electron/main.js",
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "typescript": "^4.1.2",
+    "web-vitals": "^1.0.1"
+  },
+  "scripts": {
+    "build": "react-scripts build",
+    "start": "nf start -p 5000",
+    "test": "react-scripts test",
+    "build-electron": "tsc --project electron/tsconfig.json",
+    "start-electron": "ts-node --skip-project electron/connect-electron.ts",
+    "watch-electron": "tsc --watch --project electron/tsconfig.json",
+    "start-react": "cross-env BROWSER=none react-scripts start",
+    "dist": "npm run build && npm run build-electron && electron-builder build -c.extraMetadata.main=build/electron/main.js"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "electron": "^12.0.6",
+    "electron-builder": "^22.10.5",
+    "foreman": "^3.0.1",
+    "nodemon": "^2.0.7",
+    "tsc": "^1.20150623.0",
+    "wait-on": "^5.3.0",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.43",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0"
+  }
+}
