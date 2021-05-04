@@ -14,17 +14,18 @@ let startedElectron = false;
 const tryConnection = () => {
   client.connect({ port }, () => {
     client.end();
+    console.log("starting");
 
     if (!startedElectron) {
       startedElectron = true;
-      console.log("starting electron");
-
-      childProcess.exec(
+      const child = childProcess.exec(
         'nodemon --watch "build"  --exec "electron ." --inspect=5858',
         {
           windowsHide: true,
         }
       );
+      child.stdout.pipe(process.stdout);
+      child.stderr.pipe(process.stderr);
     }
   });
 };

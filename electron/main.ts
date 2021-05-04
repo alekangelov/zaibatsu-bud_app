@@ -1,6 +1,7 @@
-import { app, BrowserWindow, Menu, screen } from "electron";
+import { app, BrowserWindow, Menu, screen, remote } from "electron";
 import * as path from "path";
 import * as url from "url";
+import log from "electron-log";
 
 // import menuTemplate from './menu';
 
@@ -10,11 +11,8 @@ const DIMENSIONS = {
   W: 1280,
   H: 720,
 };
-
-console.log(process.platform);
-
 const DEFAULTS = {
-  frame: process.platform === "linux",
+  frame: true,
   transparent: true,
 };
 
@@ -23,9 +21,9 @@ function createWindow() {
   const externalDisplay = displays.find((display) => {
     return display.bounds.x !== 0 || display.bounds.y !== 0;
   });
-
-  let mainWindow;
+  let mainWindow: BrowserWindow;
   if (externalDisplay) {
+    console.log("jakoto 1");
     mainWindow = new BrowserWindow({
       width: DIMENSIONS.W,
       height: DIMENSIONS.H,
@@ -34,6 +32,7 @@ function createWindow() {
       ...DEFAULTS,
     });
   } else {
+    console.log("jakoto 2");
     mainWindow = new BrowserWindow({
       width: DIMENSIONS.W,
       height: DIMENSIONS.H,
@@ -56,6 +55,9 @@ function createWindow() {
   );
 
   mainWindow.on("closed", () => {
+    mainWindow = null;
+  });
+  mainWindow.on("close", () => {
     mainWindow = null;
   });
 }
