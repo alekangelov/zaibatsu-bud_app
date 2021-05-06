@@ -1,16 +1,54 @@
+iframe {
+  pointer-events: none;
+}
+
 .topbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 2rem;
+  max-height: 2rem;
+  z-index: 100;
   background: $primaryDark;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-shadow: inset 0 0 25px $primary;
+  -webkit-app-region: drag;
+  button {
+    -webkit-app-region: no-drag;
+  }
+  &-menu {
+    height: 100%;
+    display: flex;
+    p {
+      margin: 0;
+    }
+    &_item {
+      background: none;
+      outline: none;
+      border: none;
+      cursor: pointer;
+      height: 100%;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      @include transition(opacity background);
+      &:disabled {
+        opacity: 0.2;
+      }
+      &:hover {
+        background: rgba(white, 0.1);
+      }
+    }
+  }
   &-brand {
     padding: 0rem 1rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     h3 {
       margin: 0;
       font-size: 0.8rem;
@@ -34,5 +72,177 @@
         background: rgba(white, 0.2);
       }
     }
+  }
+}
+
+.router-root {
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 2rem);
+  padding-top: 2rem;
+  position: relative;
+  &_inner {
+    overflow-y: scroll;
+    width: 100%;
+    position: absolute;
+    top: 2rem;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 2rem);
+  }
+}
+
+.c-select {
+  background: $ultraDark;
+  position: relative;
+  z-index: 1;
+  height: calc(100vh - 2rem);
+  width: 100%;
+  overflow: hidden;
+  &_title {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 10;
+  }
+  &_bg {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    &--overlay {
+      position: absolute;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: linear-gradient(to top, rgba($dark, 1), rgba($dark, 0));
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: top center;
+    }
+  }
+  &_inner {
+    position: absolute;
+    bottom: 0;
+    padding: 0;
+    width: calc(100% - 2rem);
+    left: 50%;
+    transform: translate(-50%, -1rem);
+    // overflow: hidden;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(18, 1fr);
+    grid-gap: 0.5rem;
+  }
+  &_single {
+    display: flex;
+    position: relative;
+    cursor: pointer;
+    padding-top: 150%;
+
+    &--container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+    &.selected {
+      .c-select_single {
+        &--inner {
+          transform: scale(1.1);
+          &__overlay {
+            opacity: 1;
+          }
+        }
+      }
+    }
+    &--bg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 80%;
+      width: 100%;
+      background: $dark;
+      z-index: -1;
+      box-shadow: inset 0 0 50px rgba($primary, 0.2);
+    }
+    &--inner {
+      display: flex;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      @include transition(transform);
+      &__overlay {
+        @include transition(opacity);
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        opacity: 0;
+        box-shadow: inset 0 0 35px $primary;
+      }
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+}
+
+.character {
+  min-height: 400vh;
+  &-header {
+    padding-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &-bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: $ultraDark;
+    &__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to right,
+        rgba($ultraDark, 0.95) 0%,
+        rgba($ultraDark, 1) 75%
+      );
+      z-index: 1;
+    }
+    img {
+      position: absolute;
+      left: -50%;
+      width: 150%;
+      height: 100%;
+      filter: grayscale(1);
+      object-fit: cover;
+      object-position: top center;
+    }
+  }
+}
+
+.sc-thumb {
+  background: rgba(white, 0.2);
+  @include transition(background);
+  display: block;
+  &:hover {
+    background: rgba(white, 0.5);
   }
 }

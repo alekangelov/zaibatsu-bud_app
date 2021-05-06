@@ -1,29 +1,42 @@
+import * as React from "react";
 import {
+  faHome,
   faTimes,
   faWindowMaximize,
   faWindowMinimize,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import * as React from "react";
-import { remote } from "electron";
+import { ipcRenderer } from "electron";
+import Menu from "./Menu";
+import { useHistory, useLocation } from "react-router";
 
-const getWindow = () => remote.getCurrentWindow();
+const onMinimize = () => {
+  return ipcRenderer.send("minimize");
+};
+const onMaximize = () => {
+  return ipcRenderer.send("maximize");
+};
+const onClose = () => {
+  return ipcRenderer.send("close");
+};
 
 export default function TopBar() {
-  const currentWindow = React.useRef(getWindow());
-  const onMinimize = () => {
-    return currentWindow.current.minimize();
-  };
-  const onMaximize = () => {
-    if (currentWindow.current.isMaximized())
-      return currentWindow.current.restore();
-    return currentWindow.current.maximize();
-  };
-  const onClose = () => {
-    return currentWindow.current.close();
-  };
+  const location = useLocation();
+  const { push } = useHistory();
   return (
     <div className="topbar">
+      <Menu
+        menu={[
+          {
+            disabled: location.pathname === "/",
+            title: <FontAwesomeIcon icon={faHome} color="white" />,
+            onClick: (event) => {
+              event.preventDefault();
+              push("/");
+            },
+          },
+        ]}
+      />
       <div className="topbar-brand">
         <h3>Zaibatsu Bud</h3>
       </div>

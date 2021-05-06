@@ -1,0 +1,99 @@
+.form-control {
+  display: flex;
+  flex-flow: column;
+  label {
+    margin-bottom: 1rem;
+  }
+  .base_input {
+    font-size: 1rem;
+    background: none;
+    color: white;
+    border: none;
+    outline: none;
+    flex: 1 1 30%;
+    padding: 0.8rem 1.5rem;
+    border: 1.5px solid transparent;
+  }
+  &_fake {
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    .tags {
+      &-single {
+        display: flex;
+        padding: 0.25rem 0.5rem;
+        align-items: center;
+        justify-content: center;
+        background: $primaryDark;
+        cursor: pointer;
+        border-radius: 0.5rem;
+        font-size: 0.8rem;
+        @include transition(filter);
+        &:hover {
+          filter: brightness(1.5);
+        }
+      }
+      &-inner {
+        display: flex;
+        flex-flow: wrap;
+        align-items: center;
+        padding: 0.8rem 1.5rem;
+        padding-bottom: 0;
+        gap: 0.5rem;
+      }
+    }
+    &.tags {
+      display: flex;
+      flex-flow: column wrap;
+
+      gap: 0.5rem;
+    }
+    &--bg {
+      position: absolute;
+      border: 1px solid rgba(white, 0.1);
+      @include transition(background border-color);
+      height: 100%;
+      width: 100%;
+      border-radius: 0.25rem;
+      top: 0;
+      left: 0;
+      background: rgba(white, 0.05);
+      z-index: -1;
+    }
+  }
+  &_input {
+    border: 1px solid rgba(white, 0.1);
+    outline: none;
+    background: rgba(white, 0.05);
+    padding: 0.8rem 1.5rem;
+    color: white;
+    font-family: $fontPrimary;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    @include transition(background border-color);
+    &:focus {
+      background: rgba(white, 0.1);
+      border-color: rgba(white, 0.2);
+    }
+  }
+  &__error {
+    padding: 1rem;
+    font-size: 14px;
+    font-weight: 600;
+    color: $error;
+    opacity: 0.5;
+  }
+  &.error {
+    label {
+      color: $error;
+    }
+    .form-control_input {
+      background: rgba($error, 0.05);
+      border-color: rgba($error, 0.1);
+    }
+    .form-control_fake--bg {
+      background: rgba($error, 0.05);
+      border-color: rgba($error, 0.1);
+    }
+  }
+}

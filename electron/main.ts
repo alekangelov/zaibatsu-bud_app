@@ -1,8 +1,20 @@
-import { app, BrowserWindow, Menu, screen, remote, ipcMain } from "electron";
+import { app, BrowserWindow, screen } from "electron";
 import * as path from "path";
 import * as url from "url";
-import log from "electron-log";
+import installExtension, {
+  REDUX_DEVTOOLS,
+  REACT_DEVELOPER_TOOLS,
+} from "electron-devtools-installer";
 import * as events from "./events";
+
+try {
+  const remote = require("@electron/remote/main");
+  console.log(remote);
+  remote.initialize();
+} catch (e) {
+  console.error(e);
+}
+
 const Store = require("electron-store");
 
 const store = new Store();
@@ -23,14 +35,13 @@ const DEFAULTS = {
   x: 50,
   y: 50,
   webPreferences: {
+    allowRunningInsecureContent: true,
     nodeIntegration: true,
     contextIsolation: false,
-    enableRemoteModule: true,
   },
 };
 
 function createWindow() {
-  const displays = screen.getAllDisplays();
   const options = Object.assign({ ...DEFAULTS }, store.get("winBounds"));
   let mainWindow: BrowserWindow;
   mainWindow = new BrowserWindow({
@@ -56,6 +67,8 @@ function createWindow() {
     store.set("winBounds", mainWindow.getBounds());
     mainWindow = null;
   });
+
+  events.common(mainWindow);
 }
 
 app.on("ready", createWindow);
@@ -71,5 +84,11 @@ app.on("activate", () => {
     createWindow();
   }
 });
-
-events.common();
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === "development") {
+  app.whenReady().then(() => {
+    installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log("An error occurred: ", err));
+  });
+}

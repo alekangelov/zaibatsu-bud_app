@@ -1,0 +1,185 @@
+@for $i from 0 through 10 {
+  .m-r-#{$i} {
+    margin-right: #{$i / 2}rem !important;
+  }
+  .m-l-#{$i} {
+    margin-left: #{$i / 2}rem !important;
+  }
+  .m-t-#{$i} {
+    margin-top: #{$i / 2}rem !important;
+  }
+  .m-b-#{$i} {
+    margin-bottom: #{$i / 2}rem !important;
+  }
+  .m-x-#{$i} {
+    margin: 0 #{$i / 2}rem;
+  }
+  .m-y-#{$i} {
+    margin: #{$i / 2}rem 0;
+  }
+  .p-r-#{$i} {
+    padding-right: #{$i / 2}rem !important;
+  }
+  .p-l-#{$i} {
+    padding-left: #{$i / 2}rem !important;
+  }
+  .p-t-#{$i} {
+    padding-top: #{$i / 2}rem !important;
+  }
+  .p-b-#{$i} {
+    padding-bottom: #{$i / 2}rem !important;
+  }
+  .p-x-#{$i} {
+    padding: 0 #{$i / 2}rem;
+  }
+  .p-y-#{$i} {
+    padding: #{$i / 2}rem 0;
+  }
+}
+
+.m-x-auto {
+  margin: 0 auto;
+}
+.m-y-auto {
+  margin: auto 0;
+}
+
+@function transition($args) {
+  $return: "";
+  @each $arg in $args {
+    $return: #{$return + ",0.25s ease-in-out #{$arg}"};
+  }
+  @return $return;
+}
+
+// .btn {
+//   @include align-center-flex;
+//   background: rgba($white, 0.1);
+//   color: white;
+//   text-align: center;
+//   justify-content: center;
+//   width: 100%;
+//   border-radius: $borderRadius;
+//   padding: 1rem 2rem;
+//   color: $white;
+//   backdrop-filter: $blur;
+//   font-weight: 600;
+//   transition: transition((box-shadow, background));
+//   box-shadow: 0 0 0 1px rgba($white, 0);
+
+//   text-transform: uppercase;
+//   &:active {
+//     filter: brightness(0.6);
+//   }
+//   &:hover {
+//     box-shadow: 0 0 0 1px rgba($white, 0.4);
+//     background: rgba($white, 0.2);
+//     color: white;
+//   }
+// }
+
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+
+$xs: 326px;
+$sm: 512px;
+$md: 728px;
+$lg: 1100px;
+
+@mixin for-phone {
+  @media screen and (max-width: $sm) {
+    @content;
+  }
+}
+@mixin for-tablet {
+  @media screen and (max-width: $md) {
+    @content;
+  }
+}
+@mixin for-laptop {
+  @media screen and (max-width: $md) {
+    @content;
+  }
+}
+
+$viewport-layouts: (
+  "xs": $xs,
+  "sm": $sm,
+  "md": $md,
+  "lg": $lg,
+);
+
+$columns: 12;
+
+$gutter-width: 1rem;
+$half-gutter-width: $gutter-width / 2;
+$gutter-compensation: -1 * $half-gutter-width;
+
+$singleWidth: percent(12);
+
+.wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 90%;
+  &-small {
+    max-width: 800px;
+  }
+  &-fluid {
+    max-width: unset;
+  }
+}
+
+.row {
+  display: flex;
+  flex-flow: row wrap;
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  margin-right: $gutter-compensation;
+  margin-left: $gutter-compensation;
+  // gap: $gutter-width;
+  &.align-center {
+    align-items: center;
+  }
+}
+
+@each $name, $point in $viewport-layouts {
+  @for $i from 0 through $columns {
+    $width: percentage($i/$columns);
+    .col-#{$name}-#{$i} {
+      display: block;
+      width: 100%;
+      margin-bottom: $gutter-width;
+      padding-right: $half-gutter-width;
+      padding-left: $half-gutter-width;
+    }
+    @media screen and (min-width: $point) {
+      .offset-#{$name}-#{$i} {
+        margin-left: $width;
+      }
+      .col-#{$name}-#{$i} {
+        flex: 0 0 $width;
+        padding-right: $half-gutter-width;
+        padding-left: $half-gutter-width;
+      }
+    }
+  }
+}
+
+.full-height {
+  min-height: 60vh;
+  margin-top: 10vh;
+  &.centered {
+    display: grid;
+    place-items: center;
+  }
+}
+
+.d-flex {
+  display: flex;
+}

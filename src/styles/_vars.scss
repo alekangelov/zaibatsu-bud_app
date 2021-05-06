@@ -2,7 +2,10 @@ $ultraDark: #111a20;
 $dark: #1d2b34;
 $primary: #56d5ff;
 $primaryDark: #0976c9;
-
+$error: #ff5689;
+$success: #56ffd5;
+$fontPrimary: "Lab Grotesque";
+$fontSecondary: "Soloist";
 @mixin transition(
   $prop,
   $time: 0.5s,
