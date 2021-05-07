@@ -29,8 +29,11 @@ const ComboPreview: React.FC<ComboPreviewProps> = React.memo(
             </div>
           </div>
           <div className="combo-preview_inner">
-            {parsedCombo.map((e) => (
-              <span className={clsx("combo-preview_single", e.type)}>
+            {parsedCombo.map((e, i) => (
+              <span
+                key={`${e.content}-${i}`}
+                className={clsx("combo-preview_single", e.type)}
+              >
                 {e.type.includes("tooltip") ? (
                   e.content
                 ) : (

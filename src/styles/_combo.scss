@@ -1,4 +1,19 @@
 .combo {
+  &-overview {
+    @include transition(transform);
+    cursor: pointer;
+    position: relative;
+    &_overlay {
+      position: absolute;
+      display: flex;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 1;
+    }
+    &:hover {
+      transform: scale(1.01);
+    }
+  }
   &-preview {
     padding: 4rem;
     background: #015480;

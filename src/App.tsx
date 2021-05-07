@@ -1,16 +1,16 @@
 import * as React from "react";
 import TopBar from "./components/TopBar";
-import "./styles/index.scss";
 import { Provider } from "react-redux";
 import makeStore from "./global/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { HashRouter, Route, Switch } from "react-router-dom";
+import { ToastContainer, cssTransition } from "react-toastify";
 import CharacterSelect from "./components/CharacterSelect";
 import AutoHideScrollbar from "./components/AutoHiddenScrollbar";
-// import { useTransition, a } from "@react-spring/web";
 import CharacterOverview from "./components/Character";
 import NewEditCombo from "./components/Combo";
-
+import "react-toastify/dist/ReactToastify.css";
+import "./styles/index.scss";
 const { store, persistor } = makeStore();
 
 const AnimatedSwitch: React.FC = ({ children }) => {
@@ -39,6 +39,20 @@ function App() {
     <Provider store={store}>
       <HashRouter>
         <PersistGate loading={null} persistor={persistor}>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={2500}
+            hideProgressBar
+            newestOnTop={true}
+            closeOnClick
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            transition={cssTransition({
+              enter: "fade-in-bottom",
+              exit: "fade-out",
+            })}
+          />
           <div className="App">
             <TopBar />
           </div>
@@ -56,7 +70,7 @@ function App() {
                 </Route>
               </AnimatedSwitch>
             </AutoHideScrollbar>
-          </div>
+          </div>{" "}
         </PersistGate>
       </HashRouter>
     </Provider>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { pipe, trim, split, join, replace } from "ramda";
+import { pipe, trim, split } from "ramda";
 import {
   suffixAndSort,
   mapIndexed,

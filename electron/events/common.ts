@@ -13,6 +13,9 @@ function common(mainWindow: BrowserWindow) {
   ipcMain.on("close", () => {
     mainWindow.close();
   });
+  ipcMain.on("open-combo", (event, arg) => {
+    console.log(arg);
+  });
 }
 
 export default common;

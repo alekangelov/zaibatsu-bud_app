@@ -38,6 +38,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-scrollbars-custom": "^4.0.25",
+    "react-toastify": "^7.0.4",
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0",

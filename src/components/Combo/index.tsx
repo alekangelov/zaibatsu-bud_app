@@ -5,16 +5,27 @@ import CharacterBg from "../CharacterBg";
 import { Formik, Form } from "formik";
 import { TextInput, TagInput } from "../FormComponents";
 import IconButton from "../IconButton";
-import { faPlus, faRedo } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faRedo, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Combo } from "../../global/reducers/mainReducerTypes";
 import * as yup from "yup";
-import { nanoid } from "nanoid";
 import ComboPreview from "../ComboSuite/ComboPreview";
 import useAction from "../../global/helpers/useAction";
-import { addCombo } from "../../global/actions/mainActions";
+import {
+  addCombo,
+  editCombo,
+  removeCombo,
+} from "../../global/actions/mainActions";
+import {
+  makeID,
+  truthy,
+  delay,
+  pipeJsonStringParse,
+  callbackify,
+} from "../../utils/common";
+import { clone, ifElse, mergeDeepRight } from "ramda";
 
 const initialValues: Combo = {
-  id: "",
+  id: makeID(),
   name: "",
   character: 0,
   damage: 0,
@@ -27,7 +38,7 @@ const NewEditCombo: React.FC<any> = () => {
     character: string;
     combo: string;
   }>();
-  const { character } = useAppSelector((state) => {
+  const { character, combo } = useAppSelector((state) => {
     const character = state.characters.find(
       (e) => e.id === parseInt(selectedCharacter)
     );
@@ -35,6 +46,8 @@ const NewEditCombo: React.FC<any> = () => {
     return { character, combo };
   });
   const addComboAction = useAction(addCombo);
+  const removeComboAction = useAction(removeCombo);
+  const editComboAction = useAction(editCombo);
   const { push } = useHistory();
   return (
     <div className="character">
@@ -45,7 +58,7 @@ const NewEditCombo: React.FC<any> = () => {
         </div>
         <div className="m-t-5">
           <Formik
-            initialValues={initialValues}
+            initialValues={combo || initialValues}
             validationSchema={yup.object().shape({
               name: yup.string().required("The combo has to have a name!"),
               damage: yup
@@ -63,18 +76,35 @@ const NewEditCombo: React.FC<any> = () => {
                 .string()
                 .required("That's the main point of this whole shabang."),
             })}
-            onSubmit={(values) => {
-              const finalCombo: Combo = {
-                ...values,
-                ...{ id: nanoid(), character: character?.id || 0 },
-              };
-              addComboAction(finalCombo);
-              push(`/character/${character?.id}`);
+            onSubmit={async (values) => {
+              const newId = makeID();
+              console.log(values);
+              const finalCombo = pipeJsonStringParse(
+                clone({
+                  ...values,
+                  ...{
+                    character: character?.id || 0,
+                  },
+                })
+              );
+              console.log({
+                finalCombo: finalCombo,
+                newId,
+                finalComboid: finalCombo.id,
+                x: typeof finalCombo.id,
+              });
+              if (combo) {
+                editComboAction(finalCombo);
+              } else {
+                addComboAction(finalCombo);
+              }
+              // push(`/character/${character?.id}`);
             }}
           >
             {(formik) => (
               <Form>
                 <div className="row">
+                  <TextInput name="id" label="id" parentClassName="col-md-4" />
                   <TextInput
                     parentClassName="col-md-4"
                     name="name"
@@ -112,6 +142,7 @@ const NewEditCombo: React.FC<any> = () => {
                       Submit
                     </IconButton>
                     <IconButton
+                      className="m-r-4"
                       type="reset"
                       onClick={(e) => {
                         e.preventDefault();
@@ -121,6 +152,19 @@ const NewEditCombo: React.FC<any> = () => {
                     >
                       Reset
                     </IconButton>
+                    {truthy(combo) && (
+                      <IconButton
+                        type="reset"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          removeComboAction(combo);
+                          push(`/character/${character?.id}`);
+                        }}
+                        icon={faTrash}
+                      >
+                        Delete
+                      </IconButton>
+                    )}
                   </div>
                 </div>
               </Form>

@@ -9,7 +9,7 @@ interface TextInputProps
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {
-  parentClassName: string;
+  parentClassName?: string;
   label: string;
   long?: boolean;
 }
@@ -56,17 +56,17 @@ export const TagInput: React.FC<TextInputProps> = ({
   const [value, setValue] = React.useState("");
   const handleKeyDown = React.useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
+      const lcKey = e.key.toLowerCase();
+      if (lcKey === "enter" || lcKey === "tab") {
+        if (lcKey === "enter") e.preventDefault();
         if (value) {
           formik.setFieldValue(field.name, [...field.value, value]);
           setValue("");
         }
       }
-      if (e.key === "Backspace" && !value) {
+      if (lcKey === "backspace" && !value) {
         e.preventDefault();
         formik.setFieldValue(field.name, removeLast(field.value));
-        console.log("backspace");
       }
     },
     [field.value, value, field.name, formik]
