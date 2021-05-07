@@ -1,5 +1,4 @@
 import { createAction } from "typesafe-actions";
+import { Combo, MainReducerActionTypes } from "../reducers/mainReducerTypes";
 
-export const addCombo = createAction("CREATE_COMBO", () => {
-  return null;
-});
+export const addCombo = createAction(MainReducerActionTypes.ADD_COMBO)<Combo>();

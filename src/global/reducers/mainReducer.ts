@@ -1,25 +1,19 @@
 import { createReducer } from "typesafe-actions";
+import { ActionTypes, IState } from "./mainReducerTypes";
 import characters from "../../data/characters.json";
-
-export interface Combo {
-  id: string;
-  name: string;
-  inputs: string[] | string;
-  damage: number;
-  tags: string[];
-  character: typeof characters[0]["id"];
-}
-
-export interface IState {
-  characters: typeof characters;
-  combos: Combo[];
-}
+import { addCombo } from "../actions/mainActions";
 
 export const initialState: IState = {
   characters,
   combos: [],
 };
 
-export type Character = typeof characters[0];
-
-export default createReducer(initialState);
+export default createReducer<IState, ActionTypes>(initialState).handleAction(
+  addCombo,
+  (state, action) => {
+    return {
+      ...state,
+      combos: [...state.combos, action.payload],
+    };
+  }
+);

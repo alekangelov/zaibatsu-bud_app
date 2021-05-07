@@ -1,15 +1,17 @@
 import * as React from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import useAppSelector from "../../global/helpers/useAppSelector";
 import CharacterBg from "../CharacterBg";
 import { Formik, Form } from "formik";
 import { TextInput, TagInput } from "../FormComponents";
 import IconButton from "../IconButton";
 import { faPlus, faRedo } from "@fortawesome/free-solid-svg-icons";
-import { Combo } from "../../global/reducers/mainReducer";
+import { Combo } from "../../global/reducers/mainReducerTypes";
 import * as yup from "yup";
 import { nanoid } from "nanoid";
 import ComboPreview from "../ComboSuite/ComboPreview";
+import useAction from "../../global/helpers/useAction";
+import { addCombo } from "../../global/actions/mainActions";
 
 const initialValues: Combo = {
   id: "",
@@ -32,6 +34,8 @@ const NewEditCombo: React.FC<any> = () => {
     const combo = state.combos.find((e) => (e.id = selectedCombo));
     return { character, combo };
   });
+  const addComboAction = useAction(addCombo);
+  const { push } = useHistory();
   return (
     <div className="character">
       <CharacterBg character={character} />
@@ -55,13 +59,17 @@ const NewEditCombo: React.FC<any> = () => {
                 .array()
                 .of(yup.string())
                 .min(1, "At least one tag, please."),
+              inputs: yup
+                .string()
+                .required("That's the main point of this whole shabang."),
             })}
             onSubmit={(values) => {
               const finalCombo: Combo = {
                 ...values,
                 ...{ id: nanoid(), character: character?.id || 0 },
               };
-              console.log(finalCombo);
+              addComboAction(finalCombo);
+              push(`/character/${character?.id}`);
             }}
           >
             {(formik) => (
@@ -88,7 +96,14 @@ const NewEditCombo: React.FC<any> = () => {
                     label="Combo string"
                   />
                   <div className="col-md-12">
-                    <ComboPreview combo={formik.values.inputs as string} />
+                    <h2>Preview</h2>
+                    <ComboPreview
+                      combo={formik.values.inputs}
+                      name={formik.values.name}
+                      tags={formik.values.tags}
+                      num={1}
+                      damage={formik.values.damage}
+                    />
                   </div>
                 </div>
                 <div className="row m-t-5">

@@ -1,6 +1,5 @@
-import { applyMiddleware, createStore } from "redux";
+import { applyMiddleware, createStore, compose } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
-import { composeWithDevTools } from "redux-devtools-extension";
 import { mainReducer } from "./reducers";
 import electronStore from "./storageHelpers/electronStore";
 import { omitCharactersFromObject } from "../utils/common";
@@ -15,10 +14,16 @@ const persistConfig = {
   },
 };
 
-const persistedReducer = persistReducer(persistConfig as any, mainReducer);
+const persistedReducer = persistReducer<any, any>(
+  persistConfig as any,
+  mainReducer as any
+);
+
+const composeEnhancers =
+  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const makeStore = () => {
-  const enhancer = composeWithDevTools(
+  const enhancer = composeEnhancers(
     applyMiddleware(...[])
     // other store enhancers if any
   );

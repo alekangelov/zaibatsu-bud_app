@@ -1,10 +1,11 @@
 import * as React from "react";
-import { pipe, trim, split, join } from "ramda";
+import { pipe, trim, split, join, replace } from "ramda";
 import {
-  ifUpperCaseAddSuffix,
+  suffixAndSort,
   mapIndexed,
   truthy,
   truthyFilter,
+  replaceAll,
 } from "../../utils/common";
 import getPublic from "../../utils/getPublic";
 import comboVars from "./inputs";
@@ -13,22 +14,42 @@ const STRING_URL = "/static/stringBuilder/";
 
 const comboTransform = (pure: boolean = false) => (e: string, i: number) => {
   const parse = (() => {
+    if (e.includes("+")) {
+      const newContent = suffixAndSort(e);
+      if (comboVars.all.includes(newContent)) {
+        return {
+          type: "svg",
+          content: newContent + ".svg",
+        };
+      }
+    }
+    if (e.toLowerCase().includes("rage") || e.toLowerCase().includes("drive")) {
+      return {
+        type: `tooltip ${e.toLowerCase().includes("drive") ? "drive" : ""} ${
+          e.toLowerCase().includes("rage") ? "rage" : ""
+        }`.trim(),
+        content: e.toUpperCase(),
+      };
+    }
     if (comboVars.all.includes(e)) {
       return {
         type: "svg",
-        content: ifUpperCaseAddSuffix(e) + ".svg",
+        content: suffixAndSort(e) + ".svg",
       };
-    } else if (e === ",") {
+    }
+    if (e === ",") {
       return {
         type: "next",
         content: "next.svg",
       };
-    } else if (e.includes("/")) {
+    }
+    if (e.includes("/")) {
       return {
         type: "svg",
-        content: ifUpperCaseAddSuffix(e.replace("/", "")) + ".svg",
+        content: suffixAndSort(e.replace("/", "")) + ".svg",
       };
-    } else if (typeof e !== "undefined" && Boolean(e)) {
+    }
+    if (typeof e !== "undefined" && Boolean(e)) {
       return {
         type: "tooltip",
         content: e,
@@ -93,8 +114,7 @@ type PureOrElement<T extends boolean> = T extends boolean
 const comboParser = <A extends string, T extends boolean>(combo: A, pure: T) =>
   (pipe(
     trim,
-    split(","),
-    join(" , "),
+    replaceAll(",", " , "),
     split(" "),
     truthyFilter,
     mapIndexed(comboTransform(pure) as any)

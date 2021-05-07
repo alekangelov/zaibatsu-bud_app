@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Character } from "../../global/reducers/mainReducer";
+import { Character } from "../../global/reducers/mainReducerTypes";
 
 const CharacterBg: React.FC<{ character: Character | undefined }> = ({
   character,

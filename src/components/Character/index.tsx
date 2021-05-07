@@ -3,6 +3,7 @@ import * as React from "react";
 import { useHistory, useParams } from "react-router";
 import useAppSelector from "../../global/helpers/useAppSelector";
 import CharacterBg from "../CharacterBg";
+import ComboPreview from "../ComboSuite/ComboPreview";
 import IconButton from "../IconButton";
 
 const CharacterOverview: React.FC = () => {
@@ -17,7 +18,7 @@ const CharacterOverview: React.FC = () => {
     <div className="character">
       <CharacterBg character={character} />
       <div className="container">
-        <div className="character-header">
+        <div className="character-header m-b-10">
           <h1 className="impact">{character?.name}</h1>
           <IconButton
             onClick={() => {
@@ -28,7 +29,18 @@ const CharacterOverview: React.FC = () => {
             New Combo
           </IconButton>
         </div>
-        <div className="container m-t-5">{combos.map((e) => null)}</div>
+        {!Boolean(combos.length) && (
+          <div>
+            <h1>No combos for {character?.name}</h1>
+          </div>
+        )}
+        {combos.map((e, i) => {
+          return (
+            <div className="m-b-5">
+              <ComboPreview {...e} combo={e.inputs} num={i + 1} />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

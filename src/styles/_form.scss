@@ -18,30 +18,6 @@
     position: relative;
     display: flex;
     flex-flow: column;
-    .tags {
-      &-single {
-        display: flex;
-        padding: 0.25rem 0.5rem;
-        align-items: center;
-        justify-content: center;
-        background: $primaryDark;
-        cursor: pointer;
-        border-radius: 0.5rem;
-        font-size: 0.8rem;
-        @include transition(filter);
-        &:hover {
-          filter: brightness(1.5);
-        }
-      }
-      &-inner {
-        display: flex;
-        flex-flow: wrap;
-        align-items: center;
-        padding: 0.8rem 1.5rem;
-        padding-bottom: 0;
-        gap: 0.5rem;
-      }
-    }
     &.tags {
       display: flex;
       flex-flow: column wrap;
@@ -95,5 +71,30 @@
       background: rgba($error, 0.05);
       border-color: rgba($error, 0.1);
     }
+  }
+}
+
+.tags {
+  &-single {
+    display: flex;
+    padding: 0.25rem 0.5rem;
+    align-items: center;
+    justify-content: center;
+    background: $primaryDark;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    @include transition(filter);
+    &:hover {
+      filter: brightness(1.5);
+    }
+  }
+  &-inner {
+    display: flex;
+    flex-flow: wrap;
+    align-items: center;
+    padding: 0.8rem 1.5rem;
+    padding-bottom: 0;
+    gap: 0.5rem;
   }
 }

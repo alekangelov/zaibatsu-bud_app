@@ -78,7 +78,7 @@ iframe {
 .router-root {
   left: 0;
   width: 100%;
-  height: calc(100vh - 2rem);
+  height: calc(100vh);
   padding-top: 2rem;
   position: relative;
   &_inner {
@@ -200,7 +200,6 @@ iframe {
 }
 
 .character {
-  min-height: 400vh;
   &-header {
     padding-top: 2rem;
     display: flex;

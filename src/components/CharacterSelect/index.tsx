@@ -1,6 +1,6 @@
 import * as React from "react";
 import useAppSelector from "../../global/helpers/useAppSelector";
-import { Character } from "../../global/reducers/mainReducer";
+import { Character } from "../../global/reducers/mainReducerTypes";
 import clsx from "clsx";
 import { useHistory } from "react-router";
 import { useTransition, a } from "@react-spring/web";
