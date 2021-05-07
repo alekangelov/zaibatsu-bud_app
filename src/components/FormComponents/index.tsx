@@ -11,15 +11,23 @@ interface TextInputProps
   > {
   parentClassName: string;
   label: string;
+  long?: boolean;
 }
 
 export const TextInput: React.FC<TextInputProps> = ({
   name,
   parentClassName,
   label,
+  long = false,
   ...rest
 }) => {
   const [field, meta] = useField(name || "");
+  const input = React.createElement(long ? "textarea" : "input", {
+    ...mergeProps(rest, field, {
+      className: "form-control_input",
+      id: field.name,
+    }),
+  });
   return (
     <div
       className={clsx(
@@ -29,10 +37,7 @@ export const TextInput: React.FC<TextInputProps> = ({
       )}
     >
       <label htmlFor={field.name}>{label}</label>
-      <input
-        {...mergeProps(rest, field, { className: "form-control_input" })}
-        id={field.name}
-      />
+      {input}
       {meta.touched && meta.error && (
         <span className="form-control__error">{meta.error}</span>
       )}
@@ -61,9 +66,10 @@ export const TagInput: React.FC<TextInputProps> = ({
       if (e.key === "Backspace" && !value) {
         e.preventDefault();
         formik.setFieldValue(field.name, removeLast(field.value));
+        console.log("backspace");
       }
     },
-    [field.value, value]
+    [field.value, value, field.name, formik]
   );
   const handleDelete = useDeepCallback(
     (index: number) => {
@@ -114,6 +120,62 @@ export const TagInput: React.FC<TextInputProps> = ({
       {meta.touched && meta.error && (
         <span className="form-control__error">{meta.error}</span>
       )}
+    </div>
+  );
+};
+
+// const CheckboxUncontrolled: React.FC<Props>  = ({ value, label, name, onChange }) => {
+//   return (
+//     <div className={clsx("checkbox-wrapper")}>
+//       <label htmlFor={name} className="checkbox">
+//         <input
+//           type="checkbox"
+//           onChange={onChange}
+//           value={true}
+//           name={name}
+//           id={name}
+//         />
+//         <span className="checkbox-custom"></span>
+//       </label>
+//       <label htmlFor={name}>{label}</label>
+//     </div>
+//   );
+// };
+
+interface RadioUncontrolledProps
+  extends React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
+  name: string;
+  value: string;
+  valueChecked: string;
+  label: string;
+}
+
+const RadioUncontrolled: React.FC<RadioUncontrolledProps> = ({
+  value,
+  valueChecked,
+  label,
+  name,
+  onChange,
+  ...rest
+}) => {
+  return (
+    <div className={clsx("checkbox-wrapper")}>
+      <label htmlFor={name + value} className="checkbox">
+        <input
+          type="radio"
+          onChange={onChange}
+          value={value}
+          name={name}
+          defaultChecked={valueChecked === value}
+          id={name + value}
+          {...rest}
+        />
+        <span className="checkbox-custom"></span>
+      </label>
+      <label htmlFor={name + value}>{label}</label>
     </div>
   );
 };

@@ -36,7 +36,7 @@ const NewEditCombo: React.FC<any> = () => {
       <CharacterBg character={character} />
       <div className="container">
         <div className="character-header">
-          <h1 className="impact">{character?.name}</h1>
+          <h1 className="impact">NEW COMBO: {character?.name}</h1>
         </div>
         <div className="m-t-5">
           <Formik
@@ -58,7 +58,7 @@ const NewEditCombo: React.FC<any> = () => {
             onSubmit={(values) => {
               const finalCombo: Combo = {
                 ...values,
-                ...{ id: nanoid(), character: character?.id },
+                ...{ id: nanoid(), character: character?.id || 0 },
               };
               console.log(finalCombo);
             }}
@@ -80,6 +80,11 @@ const NewEditCombo: React.FC<any> = () => {
                     parentClassName="col-md-4"
                     name="tags"
                     label="Tags (hit enter after each tag)"
+                  />
+                  <TextInput
+                    parentClassName="col-md-12"
+                    name="combo"
+                    label="Combo string"
                   />
                 </div>
                 <div className="row m-t-5">

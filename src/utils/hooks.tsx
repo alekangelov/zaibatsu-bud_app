@@ -6,7 +6,7 @@ import {
   useMemo,
   useCallback,
 } from "react";
-import { equals } from "remeda";
+import { equals } from "ramda";
 
 function useDeepCompareMemoize(value: DependencyList) {
   const ref = useRef<DependencyList>();

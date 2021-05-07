@@ -1,13 +1,10 @@
 import React from "react";
-import { omit, createPipe, dropLast } from "remeda";
+import { omit, pipe, dropLast, filter } from "ramda";
 
 function anything<T>(a: T): T {
   return a;
 }
-export const omitCharactersFromObject = createPipe(
-  anything,
-  omit(["characters"] as any)
-);
+export const omitCharactersFromObject = omit(["characters"]);
 
 export const formEventToJson = (event: React.FormEvent<HTMLFormElement>) => {
   const formData = new FormData(event.currentTarget);
@@ -16,3 +13,11 @@ export const formEventToJson = (event: React.FormEvent<HTMLFormElement>) => {
 };
 
 export const removeLast = dropLast(1);
+
+type Truthy<T> = T extends false | "" | 0 | null | undefined ? never : T; // from lodash
+
+export function truthy<T>(value: T): value is Truthy<T> {
+  return !!value;
+}
+
+export const truthyFilter = filter(truthy);
