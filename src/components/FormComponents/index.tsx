@@ -22,12 +22,12 @@ export const TextInput: React.FC<TextInputProps> = ({
   ...rest
 }) => {
   const [field, meta] = useField(name || "");
-  const input = React.createElement(long ? "textarea" : "input", {
+  const mergedProps = {
     ...mergeProps(rest, field, {
       className: "form-control_input",
       id: field.name,
     }),
-  });
+  };
   return (
     <div
       className={clsx(
@@ -37,7 +37,7 @@ export const TextInput: React.FC<TextInputProps> = ({
       )}
     >
       <label htmlFor={field.name}>{label}</label>
-      {input}
+      {long ? <textarea {...mergedProps} /> : <input {...mergedProps} />}
       {meta.touched && meta.error && (
         <span className="form-control__error">{meta.error}</span>
       )}

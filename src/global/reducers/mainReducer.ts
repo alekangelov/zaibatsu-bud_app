@@ -4,7 +4,7 @@ import characters from "../../data/characters.json";
 export interface Combo {
   id: string;
   name: string;
-  inputs: string[];
+  inputs: string[] | string;
   damage: number;
   tags: string[];
   character: typeof characters[0]["id"];

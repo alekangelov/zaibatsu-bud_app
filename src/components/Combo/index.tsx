@@ -9,13 +9,14 @@ import { faPlus, faRedo } from "@fortawesome/free-solid-svg-icons";
 import { Combo } from "../../global/reducers/mainReducer";
 import * as yup from "yup";
 import { nanoid } from "nanoid";
+import ComboPreview from "../ComboSuite/ComboPreview";
 
 const initialValues: Combo = {
   id: "",
   name: "",
   character: 0,
   damage: 0,
-  inputs: [],
+  inputs: "",
   tags: [],
 };
 
@@ -83,9 +84,12 @@ const NewEditCombo: React.FC<any> = () => {
                   />
                   <TextInput
                     parentClassName="col-md-12"
-                    name="combo"
+                    name="inputs"
                     label="Combo string"
                   />
+                  <div className="col-md-12">
+                    <ComboPreview combo={formik.values.inputs as string} />
+                  </div>
                 </div>
                 <div className="row m-t-5">
                   <div className="col-md-2 d-flex">
