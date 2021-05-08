@@ -9,17 +9,21 @@ export enum MainReducerActionTypes {
 export type Character = typeof characters[0];
 
 export interface Combo {
-  id: string;
   name: string;
   inputs: string;
   damage: number;
   tags: string[];
   character: Character["id"];
+  id: string;
 }
 
+export type ComboArray = Combo[];
+
+export interface ComboState extends ComboArray {}
+
 export interface IState {
+  combos: ComboState;
   characters: typeof characters;
-  combos: Combo[];
 }
 
 export type ActionTypes =

@@ -1,6 +1,6 @@
 import { TypedUseSelectorHook, useSelector } from "react-redux";
-import { initialState } from "../reducers/mainReducer";
+import { IState } from "../reducers/mainReducerTypes";
 
-const useAppSelector: TypedUseSelectorHook<typeof initialState> = useSelector;
+const useAppSelector: TypedUseSelectorHook<IState> = useSelector;
 
 export default useAppSelector;

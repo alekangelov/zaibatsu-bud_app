@@ -1,5 +1,8 @@
 import * as React from "react";
 import {
+  faChevronLeft,
+  faFileExport,
+  faFileImport,
   faHome,
   faTimes,
   faWindowMaximize,
@@ -22,17 +25,39 @@ const onClose = () => {
 
 export default function TopBar() {
   const location = useLocation();
-  const { push } = useHistory();
+  const { push, goBack } = useHistory();
   return (
     <div className="topbar">
       <Menu
         menu={[
           {
             disabled: location.pathname === "/",
+            title: <FontAwesomeIcon icon={faChevronLeft} color="white" />,
+            onClick: (event) => {
+              event.preventDefault();
+              goBack();
+            },
+          },
+          {
+            disabled: location.pathname === "/",
             title: <FontAwesomeIcon icon={faHome} color="white" />,
             onClick: (event) => {
               event.preventDefault();
               push("/");
+            },
+          },
+          {
+            title: <FontAwesomeIcon icon={faFileExport} color="white" />,
+            onClick: (event) => {
+              event.preventDefault();
+              push("/export");
+            },
+          },
+          {
+            title: <FontAwesomeIcon icon={faFileImport} color="white" />,
+            onClick: (event) => {
+              event.preventDefault();
+              push("/import");
             },
           },
         ]}

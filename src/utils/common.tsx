@@ -13,7 +13,9 @@ import {
   curry,
   reject,
   propEq,
+  eqProps,
 } from "ramda";
+import { nanoid } from "nanoid";
 
 function anything<T>(a: T): T {
   return a;
@@ -67,17 +69,19 @@ export const replaceAll = curry(
 export const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
-export const makeID = () => `${Math.random().toString(36).substr(2, 9)}`;
+export const makeID = () => nanoid(10);
 
-export const removeFromArrayWhereId = <T extends Array<any>>(
+export const removeFromArrayWhere = <T extends Array<any>>(
+  prop: string,
   id: string,
   array: T
-): T => reject(propEq("id", id), array) as T;
+): T => reject(propEq(prop, id), array) as T;
 
-export const replaceInArray = <T extends Array<any>>(
+export const replaceInArrayWhere = <T extends Array<any>>(
+  prop: string,
   object: any,
   array: T
-): T => map((e) => (e.id === object.id ? object : e), array) as T;
+): T => map((e) => (eqProps(prop, e, object) ? object : e), array) as T;
 
 export const pipeJsonStringParse = (obj: object) =>
   JSON.parse(JSON.stringify(obj));

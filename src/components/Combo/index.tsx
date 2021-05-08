@@ -15,17 +15,11 @@ import {
   editCombo,
   removeCombo,
 } from "../../global/actions/mainActions";
-import {
-  makeID,
-  truthy,
-  delay,
-  pipeJsonStringParse,
-  callbackify,
-} from "../../utils/common";
-import { clone, ifElse, mergeDeepRight } from "ramda";
+import { makeID, truthy, delay } from "../../utils/common";
+import ComboModel from "../../utils/models/combo";
 
 const initialValues: Combo = {
-  id: makeID(),
+  id: "",
   name: "",
   character: 0,
   damage: 0,
@@ -42,13 +36,27 @@ const NewEditCombo: React.FC<any> = () => {
     const character = state.characters.find(
       (e) => e.id === parseInt(selectedCharacter)
     );
-    const combo = state.combos.find((e) => (e.id = selectedCombo));
+    const combo = state.combos.find((e, i) => {
+      return e.id === selectedCombo;
+    });
     return { character, combo };
   });
   const addComboAction = useAction(addCombo);
   const removeComboAction = useAction(removeCombo);
   const editComboAction = useAction(editCombo);
   const { push } = useHistory();
+  const handleSubmit = React.useCallback((values) => {
+    const finalCombo = {
+      ...values,
+      character: character?.id || 0,
+    };
+    if (combo) {
+      editComboAction(finalCombo);
+    } else {
+      addComboAction(finalCombo);
+    }
+    push(`/character/${character?.id}`);
+  }, []);
   return (
     <div className="character">
       <CharacterBg character={character} />
@@ -76,35 +84,11 @@ const NewEditCombo: React.FC<any> = () => {
                 .string()
                 .required("That's the main point of this whole shabang."),
             })}
-            onSubmit={async (values) => {
-              const newId = makeID();
-              console.log(values);
-              const finalCombo = pipeJsonStringParse(
-                clone({
-                  ...values,
-                  ...{
-                    character: character?.id || 0,
-                  },
-                })
-              );
-              console.log({
-                finalCombo: finalCombo,
-                newId,
-                finalComboid: finalCombo.id,
-                x: typeof finalCombo.id,
-              });
-              if (combo) {
-                editComboAction(finalCombo);
-              } else {
-                addComboAction(finalCombo);
-              }
-              // push(`/character/${character?.id}`);
-            }}
+            onSubmit={handleSubmit}
           >
             {(formik) => (
               <Form>
                 <div className="row">
-                  <TextInput name="id" label="id" parentClassName="col-md-4" />
                   <TextInput
                     parentClassName="col-md-4"
                     name="name"

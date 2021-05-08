@@ -14,6 +14,7 @@ import { openModalAt } from "../../utils/comms";
 const CharacterOverview: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { character, combos } = useAppSelector((state) => {
+    console.log();
     const character = state.characters.find((e) => e.id === parseInt(id));
     const combos = state.combos.filter((e) => e.character === parseInt(id));
     return { character, combos };
