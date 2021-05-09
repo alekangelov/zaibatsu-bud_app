@@ -1,4 +1,6 @@
-import { BrowserWindow, ipcMain, screen } from "electron";
+import { BrowserWindow, ipcMain, screen, IpcMainEvent } from "electron";
+import * as url from "url";
+import * as path from "path";
 
 function percentage(num: number, per: number) {
   return (num / 100) * per;
@@ -12,19 +14,13 @@ type NWOpen = {
 };
 
 const makeNewWindow = (atPath = "", options: NWOpen) => {
-  const mainDisplay = screen.getPrimaryDisplay();
-
-  const DIMENSIONS = {
-    W: options.width,
-    H: height,
-  };
   const DEFAULTS = {
-    width: DIMENSIONS.W,
-    height: DIMENSIONS.H,
-    frame: process.platform === "linux",
+    width: options.width,
+    height: options.height,
+    frame: false,
     transparent: false,
-    x: 50,
-    y: 50,
+    x: options.x,
+    y: options.y,
     webPreferences: {
       allowRunningInsecureContent: true,
       nodeIntegration: true,
@@ -33,16 +29,16 @@ const makeNewWindow = (atPath = "", options: NWOpen) => {
   };
   let mainWindow: BrowserWindow;
   mainWindow = new BrowserWindow({
-    ...options,
+    ...DEFAULTS,
   });
 
   // const menu = Menu.buildFromTemplate(menuTemplate);
   // Menu.setApplicationMenu(menu);
 
   mainWindow.loadURL(
-    process.env.ELECTRON_START_URL ||
+    process.env.ELECTRON_START_URL + `/#${atPath}` ||
       url.format({
-        pathname: path.join(__dirname, "../index.html"),
+        pathname: path.join(__dirname, "../index.html/#", atPath),
         protocol: "file:",
         slashes: true,
       })
@@ -50,20 +46,35 @@ const makeNewWindow = (atPath = "", options: NWOpen) => {
 };
 
 function common(mainWindow: BrowserWindow) {
-  ipcMain.on("minimize", () => {
-    mainWindow.minimize();
+  ipcMain.on("minimize", (event) => {
+    const window = BrowserWindow.fromId(event.frameId);
+    window.minimize();
   });
-  ipcMain.on("maximize", () => {
-    if (mainWindow.isMaximized()) {
-      return mainWindow.restore();
+  ipcMain.on("maximize", (event) => {
+    const window = BrowserWindow.fromId(event.frameId);
+    if (window.isMaximized()) {
+      return window.restore();
     }
-    return mainWindow.maximize();
+    return window.maximize();
   });
-  ipcMain.on("close", () => {
-    mainWindow.close();
+  ipcMain.on("close", (event) => {
+    const window = BrowserWindow.fromId(event.frameId);
+    window.close();
+    // mainWindow.close();
   });
-  ipcMain.on("open-combo", (event, arg) => {
-    console.log(arg);
+  ipcMain.on("open-combo", (event, arg: string) => {
+    const primaryDisplay = screen.getPrimaryDisplay();
+    const displays = screen.getAllDisplays().filter((display, index) => {
+      console.log({ display, index });
+      return true;
+    });
+    const DIMENSIONS: NWOpen = {
+      width: percentage(primaryDisplay.bounds.width, 90),
+      height: 300,
+      x: percentage(primaryDisplay.bounds.width, 10) / 2,
+      y: 200,
+    };
+    makeNewWindow(arg, DIMENSIONS);
   });
 }
 
