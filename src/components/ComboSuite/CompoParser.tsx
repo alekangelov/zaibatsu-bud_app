@@ -3,7 +3,6 @@ import { pipe, trim, split } from "ramda";
 import {
   suffixAndSort,
   mapIndexed,
-  truthy,
   truthyFilter,
   replaceAll,
 } from "../../utils/common";
@@ -69,6 +68,7 @@ const comboTransform = (pure: boolean = false) => (e: string, i: number) => {
     case "svg":
       return (
         <img
+          alt={parse.content}
           key={i + "comboPreview"}
           className={className || ""}
           src={getPublic(`${STRING_URL}${parse.content}`)}
@@ -77,6 +77,7 @@ const comboTransform = (pure: boolean = false) => (e: string, i: number) => {
     case "next":
       return (
         <img
+          alt={parse.content}
           key={i + e + "comboPreview"}
           className="next"
           src={getPublic(`${STRING_URL}${parse.content}`)}

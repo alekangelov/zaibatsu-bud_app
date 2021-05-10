@@ -15,8 +15,7 @@ import {
   editCombo,
   removeCombo,
 } from "../../global/actions/mainActions";
-import { makeID, truthy, delay } from "../../utils/common";
-import ComboModel from "../../utils/models/combo";
+import { truthy } from "../../utils/common";
 
 const initialValues: Combo = {
   id: "",

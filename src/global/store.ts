@@ -1,11 +1,9 @@
-import { applyMiddleware, createStore, compose, combineReducers } from "redux";
+import { createStore, combineReducers } from "redux";
 import { persistStore, persistReducer, PersistState } from "redux-persist";
 import { characterReducer, comboReducer } from "./reducers";
 import electronStore from "./storageHelpers/electronStore";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { IState } from "./reducers/mainReducerTypes";
-import { PersistConfig } from "redux-persist/es/types";
-import hardSet from "redux-persist/es/stateReconciler/hardSet";
 
 interface MigrationState extends IState {
   _persist: PersistState;

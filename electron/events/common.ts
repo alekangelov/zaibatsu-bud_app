@@ -1,6 +1,7 @@
-import { BrowserWindow, ipcMain, screen, IpcMainEvent } from "electron";
+import { BrowserWindow, ipcMain, screen } from "electron";
 import * as url from "url";
 import * as path from "path";
+import { buildURL } from "../main";
 
 function percentage(num: number, per: number) {
   return (num / 100) * per;
@@ -11,16 +12,18 @@ type NWOpen = {
   y: number;
   width: number;
   height: number;
+  onTop: boolean;
 };
 
-const makeNewWindow = (atPath = "", options: NWOpen) => {
-  const DEFAULTS = {
+const makeNewWindow = (atPath = "", options: NWOpen, __dirname: string) => {
+  const DEFAULTS: Electron.BrowserWindowConstructorOptions = {
     width: options.width,
     height: options.height,
     frame: false,
     transparent: false,
     x: options.x,
     y: options.y,
+    alwaysOnTop: options.onTop,
     webPreferences: {
       allowRunningInsecureContent: true,
       nodeIntegration: true,
@@ -34,18 +37,12 @@ const makeNewWindow = (atPath = "", options: NWOpen) => {
 
   // const menu = Menu.buildFromTemplate(menuTemplate);
   // Menu.setApplicationMenu(menu);
-
-  mainWindow.loadURL(
-    process.env.ELECTRON_START_URL + `/#${atPath}` ||
-      url.format({
-        pathname: path.join(__dirname, "../index.html/#", atPath),
-        protocol: "file:",
-        slashes: true,
-      })
-  );
+  console.log(buildURL(atPath));
+  mainWindow.loadURL(buildURL(atPath));
+  return mainWindow;
 };
 
-function common(mainWindow: BrowserWindow) {
+function common(mainWindow: BrowserWindow, __dirname: string) {
   ipcMain.on("minimize", (event) => {
     const window = BrowserWindow.fromId(event.frameId);
     window.minimize();
@@ -57,7 +54,7 @@ function common(mainWindow: BrowserWindow) {
     }
     return window.maximize();
   });
-  ipcMain.on("close", (event) => {
+  ipcMain.on("close", (event: any) => {
     const window = BrowserWindow.fromId(event.frameId);
     window.close();
     // mainWindow.close();
@@ -73,8 +70,11 @@ function common(mainWindow: BrowserWindow) {
       height: 300,
       x: percentage(primaryDisplay.bounds.width, 10) / 2,
       y: 200,
+      onTop: true,
     };
-    makeNewWindow(arg, DIMENSIONS);
+    console.log(arg);
+    const window = makeNewWindow(arg, DIMENSIONS, __dirname);
+    window.webContents.openDevTools();
   });
 }
 

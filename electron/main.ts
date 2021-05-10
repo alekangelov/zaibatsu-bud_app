@@ -9,7 +9,6 @@ import * as events from "./events";
 
 try {
   const remote = require("@electron/remote/main");
-  console.log(remote);
   remote.initialize();
 } catch (e) {
   console.error(e);
@@ -18,6 +17,16 @@ try {
 const Store = require("electron-store");
 
 const store = new Store();
+
+export const buildURL = (atPath: string) =>
+  process.env.ELECTRON_START_URL
+    ? `${process.env.ELECTRON_START_URL}/#${atPath}`
+    : url.format({
+        pathname: path.join(__dirname, "../index.html"),
+        hash: `${atPath}`,
+        slashes: true,
+        protocol: "file:",
+      });
 
 // import menuTemplate from './menu';
 
@@ -31,6 +40,7 @@ const DEFAULTS = {
   width: DIMENSIONS.W,
   height: DIMENSIONS.H,
   frame: process.platform === "linux",
+  // titleBarStyle: "hidden",
   transparent: false,
   x: 50,
   y: 50,
@@ -50,15 +60,7 @@ function createWindow() {
 
   // const menu = Menu.buildFromTemplate(menuTemplate);
   // Menu.setApplicationMenu(menu);
-
-  mainWindow.loadURL(
-    process.env.ELECTRON_START_URL ||
-      url.format({
-        pathname: path.join(__dirname, "../index.html"),
-        protocol: "file:",
-        slashes: true,
-      })
-  );
+  mainWindow.loadURL(buildURL(""));
 
   mainWindow.on("closed", () => {
     mainWindow = null;
@@ -68,7 +70,7 @@ function createWindow() {
     mainWindow = null;
   });
 
-  events.common(mainWindow);
+  events.common(mainWindow, __dirname);
 }
 
 app.on("ready", createWindow);

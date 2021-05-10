@@ -57,21 +57,21 @@ function App() {
       </div>
       <Provider store={store}>
         <div className="router-root">
-          {/* <PersistGate loading={null} persistor={persistor}> */}
-          <AutoHideScrollbar>
-            <AnimatedSwitch>
-              <Route path="/" exact>
-                <CharacterSelect />
-              </Route>
-              <Route path="/character/:id" exact>
-                <CharacterOverview />
-              </Route>
-              <Route path="/combo/new/:character/:combo?" exact>
-                <NewEditCombo />
-              </Route>
-            </AnimatedSwitch>
-          </AutoHideScrollbar>
-          {/* </PersistGate> */}
+          <PersistGate loading={null} persistor={persistor}>
+            <AutoHideScrollbar>
+              <AnimatedSwitch>
+                <Route path="/" exact>
+                  <CharacterSelect />
+                </Route>
+                <Route path="/character/:id" exact>
+                  <CharacterOverview />
+                </Route>
+                <Route path="/combo/new/:character/:combo?" exact>
+                  <NewEditCombo />
+                </Route>
+              </AnimatedSwitch>
+            </AutoHideScrollbar>
+          </PersistGate>
         </div>
       </Provider>
     </HashRouter>

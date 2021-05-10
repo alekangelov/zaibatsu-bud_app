@@ -1,5 +1,5 @@
 import { createReducer } from "typesafe-actions";
-import { ActionTypes, ComboState, ComboArray } from "./mainReducerTypes";
+import { ActionTypes, ComboState } from "./mainReducerTypes";
 import { addCombo, editCombo, removeCombo } from "../actions/mainActions";
 import { removeFromArrayWhere, replaceInArrayWhere } from "../../utils/common";
 import { toast } from "react-toastify";

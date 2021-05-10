@@ -37,7 +37,10 @@ const ComboPreview: React.FC<ComboPreviewProps> = React.memo(
                 {e.type.includes("tooltip") ? (
                   e.content
                 ) : (
-                  <img src={getPublic(`/images/stringBuilder/${e.content}`)} />
+                  <img
+                    src={getPublic(`/images/stringBuilder/${e.content}`)}
+                    alt={e.content}
+                  />
                 )}
               </span>
             ))}

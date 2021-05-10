@@ -9,7 +9,6 @@ import {
   sort,
   split,
   join,
-  ascend,
   curry,
   reject,
   propEq,
@@ -17,9 +16,10 @@ import {
 } from "ramda";
 import { nanoid } from "nanoid";
 
-function anything<T>(a: T): T {
+export function anything<T>(a: T): T {
   return a;
 }
+
 export const omitCharactersFromObject = omit(["characters"]);
 
 export const formEventToJson = (event: React.FormEvent<HTMLFormElement>) => {
@@ -42,9 +42,9 @@ export const isUppercase = (string: string) =>
 export const ifUpperCaseAddSuffix = (string: string) =>
   isUppercase(string) ? `${string.toLowerCase()}uc` : string;
 
-const ascComparator = (a: any, b: any) => (a < b ? -1 : a > b ? 1 : 0);
+export const ascComparator = (a: any, b: any) => (a < b ? -1 : a > b ? 1 : 0);
 
-const descComparator = (a: any, b: any) => ascComparator(b, a);
+export const descComparator = (a: any, b: any) => ascComparator(b, a);
 
 const sortAsc = pipe(split("+"), sort(ascComparator), join("+"));
 
