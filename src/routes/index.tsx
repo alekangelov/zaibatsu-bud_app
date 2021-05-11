@@ -4,6 +4,8 @@ import CharacterSelect from "../components/CharacterSelect";
 import CharacterOverview from "../components/Character";
 import NewEditCombo from "../components/Combo";
 import ViewCombo from "../components/ViewCombo";
+import Import from "../components/Import";
+import Export from "../components/Export";
 
 export const AnimatedSwitch: React.FC = () => {
   return (
@@ -19,6 +21,12 @@ export const AnimatedSwitch: React.FC = () => {
       </Route>
       <Route path="/combo-view/:combo" exact>
         <ViewCombo />
+      </Route>
+      <Route path="/import" exact>
+        <Import />
+      </Route>
+      <Route path="/export" exact>
+        <Export />
       </Route>
     </Switch>
   );

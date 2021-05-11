@@ -4,6 +4,8 @@
   label {
     margin-bottom: 1rem;
   }
+  position: relative;
+
   .base_input {
     font-size: 1rem;
     background: none;
@@ -47,6 +49,22 @@
     font-size: 1rem;
     border-radius: 0.25rem;
     @include transition(background border-color);
+    -webkit-appearance: none;
+    width: 100%;
+    &--wrapper {
+      position: relative;
+    }
+    option {
+      color: black;
+    }
+    &--icon {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translate(0, -50%);
+      display: flex;
+      align-items: center;
+    }
     &:focus {
       background: rgba(white, 0.1);
       border-color: rgba(white, 0.2);

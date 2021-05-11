@@ -1,6 +1,5 @@
-import { BrowserWindow, ipcMain, screen } from "electron";
-import * as url from "url";
-import * as path from "path";
+import { BrowserWindow, dialog, ipcMain, screen } from "electron";
+import * as fs from "fs";
 import { buildURL } from "../main";
 
 function percentage(num: number, per: number) {
@@ -63,6 +62,18 @@ function common(mainWindow: BrowserWindow, __dirname: string) {
     const window = BrowserWindow.fromId(event.frameId);
     window.close();
     // mainWindow.close();
+  });
+  ipcMain.on("save-combo", (event, data, title = "Combo.zaic") => {
+    const options: Electron.SaveDialogOptions = {
+      title: "Save Combo",
+      buttonLabel: "Save",
+      defaultPath: title,
+      filters: [{ name: "Tekken Combo", extensions: ["zaic"] }],
+    };
+    dialog.showSaveDialog(null, options).then(({ filePath }) => {
+      fs.writeFileSync(filePath, data, "utf-8");
+    });
+    event.sender.send("notification", "Combo Exported!");
   });
   ipcMain.on("open-combo", (event, arg: string) => {
     const primaryDisplay = screen.getPrimaryDisplay();

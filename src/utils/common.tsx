@@ -14,6 +14,7 @@ import {
   propEq,
   eqProps,
   propOr,
+  reduce,
 } from "ramda";
 import { nanoid } from "nanoid";
 
@@ -104,3 +105,6 @@ export const propOrFalse: <U extends string, V extends any>(
   key: U,
   object: V
 ) => Unarray<V> | false = propOr(false);
+
+export const filterLowercaseTags = (string: string) =>
+  reduce((acc, elem) => acc && string.toLowerCase() === elem, true);

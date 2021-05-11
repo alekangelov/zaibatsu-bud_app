@@ -60,17 +60,17 @@ export default function TopBar() {
             },
           },
           {
-            title: <FontAwesomeIcon icon={faFileExport} color="white" />,
-            onClick: (event) => {
-              event.preventDefault();
-              push("/export");
-            },
-          },
-          {
             title: <FontAwesomeIcon icon={faFileImport} color="white" />,
             onClick: (event) => {
               event.preventDefault();
               push("/import");
+            },
+          },
+          {
+            title: <FontAwesomeIcon icon={faFileExport} color="white" />,
+            onClick: (event) => {
+              event.preventDefault();
+              push("/export");
             },
           },
         ]}

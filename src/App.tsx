@@ -10,6 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 import "./styles/index.scss";
 import { AnimatedSwitch } from "./routes";
 import { RouterRoot } from "./components/RouterRoot";
+import { notificationService } from "./utils/comms";
+import NotificationService from "./utils/Services/NotificationService";
 const { store, persistor } = makeStore();
 
 function App() {
@@ -35,6 +37,7 @@ function App() {
       <Provider store={store}>
         <RouterRoot>
           <PersistGate loading={null} persistor={persistor}>
+            <NotificationService />
             <AutoHideScrollbar>
               <AnimatedSwitch />
             </AutoHideScrollbar>
