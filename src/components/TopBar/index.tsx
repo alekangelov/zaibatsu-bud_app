@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ipcRenderer } from "electron";
 import Menu from "./Menu";
 import { useHistory, useLocation } from "react-router";
+import { useComboView } from "../../utils/hooks/isComboView";
 
 const onMinimize = () => {
   return ipcRenderer.send("minimize");
@@ -26,6 +27,18 @@ const onClose = () => {
 export default function TopBar() {
   const location = useLocation();
   const { push, goBack } = useHistory();
+  const comboView = useComboView();
+  if (comboView) {
+    return (
+      <div className="topbar transparent">
+        <div className="topbar-icons">
+          <button className="topbar-icons__single" onClick={onClose}>
+            <FontAwesomeIcon icon={faTimes} color="white" />
+          </button>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="topbar">
       <Menu

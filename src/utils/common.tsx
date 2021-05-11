@@ -13,6 +13,7 @@ import {
   reject,
   propEq,
   eqProps,
+  propOr,
 } from "ramda";
 import { nanoid } from "nanoid";
 
@@ -96,3 +97,10 @@ export const callbackify = <
   const x = arg();
   return cb(x);
 };
+
+type Unarray<T> = T extends Array<infer U> ? U : T;
+
+export const propOrFalse: <U extends string, V extends any>(
+  key: U,
+  object: V
+) => Unarray<V> | false = propOr(false);

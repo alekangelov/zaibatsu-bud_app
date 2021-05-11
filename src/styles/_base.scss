@@ -5,6 +5,9 @@ body {
   min-width: 100%;
   background: $dark;
   color: white;
+  &.exclusive {
+    background: transparent;
+  }
 }
 
 * {
@@ -30,6 +33,7 @@ body {
     #82948e 70%,
     #8ba199 100%
   );
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

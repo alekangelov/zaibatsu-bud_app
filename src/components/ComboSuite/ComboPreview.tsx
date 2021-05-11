@@ -9,14 +9,15 @@ interface ComboPreviewProps {
   damage?: number | string;
   num?: number | string;
   tags?: Array<string>;
+  comboView?: boolean;
 }
 
 const ComboPreview: React.FC<ComboPreviewProps> = React.memo(
-  ({ combo, name, damage, num, tags = [] }) => {
+  ({ combo, name, damage, num, tags = [], comboView = false }) => {
     const parsedCombo = useComboParser(combo, true);
     return (
       parsedCombo && (
-        <div className="combo-preview">
+        <div className={clsx("combo-preview", comboView && "exclusive")}>
           <span className="combo-preview_num">{num}</span>
           <div className="combo-preview_header">
             <div className="row align-center">

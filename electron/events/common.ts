@@ -15,12 +15,17 @@ type NWOpen = {
   onTop: boolean;
 };
 
-const makeNewWindow = (atPath = "", options: NWOpen, __dirname: string) => {
+const makeNewWindow = (
+  atPath = "",
+  options: NWOpen,
+  __dirname: string,
+  transparent: boolean
+) => {
   const DEFAULTS: Electron.BrowserWindowConstructorOptions = {
     width: options.width,
     height: options.height,
     frame: false,
-    transparent: false,
+    transparent,
     x: options.x,
     y: options.y,
     alwaysOnTop: options.onTop,
@@ -67,14 +72,12 @@ function common(mainWindow: BrowserWindow, __dirname: string) {
     });
     const DIMENSIONS: NWOpen = {
       width: percentage(primaryDisplay.bounds.width, 90),
-      height: 300,
+      height: 150,
       x: percentage(primaryDisplay.bounds.width, 10) / 2,
       y: 200,
       onTop: true,
     };
-    console.log(arg);
-    const window = makeNewWindow(arg, DIMENSIONS, __dirname);
-    window.webContents.openDevTools();
+    const window = makeNewWindow(arg, DIMENSIONS, __dirname, true);
   });
 }
 
