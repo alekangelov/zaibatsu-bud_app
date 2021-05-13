@@ -15,13 +15,13 @@ import { useHistory, useLocation } from "react-router";
 import { useComboView } from "../../utils/hooks/isComboView";
 
 const onMinimize = () => {
-  return ipcRenderer.send("minimize");
+  return ipcRenderer.invoke("minimize");
 };
 const onMaximize = () => {
-  return ipcRenderer.send("maximize");
+  return ipcRenderer.invoke("maximize");
 };
 const onClose = () => {
-  return ipcRenderer.send("close");
+  return ipcRenderer.invoke("close");
 };
 
 export default function TopBar() {

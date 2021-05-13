@@ -1,4 +1,10 @@
-import { BrowserWindow, dialog, ipcMain, screen } from "electron";
+import {
+  BrowserWindow,
+  dialog,
+  ipcMain,
+  screen,
+  IpcMainInvokeEvent,
+} from "electron";
 import * as fs from "fs";
 import { buildURL } from "../main";
 
@@ -47,23 +53,24 @@ const makeNewWindow = (
 };
 
 function common(mainWindow: BrowserWindow, __dirname: string) {
-  ipcMain.on("minimize", (event) => {
+  ipcMain.handle("minimize", (event) => {
     const window = BrowserWindow.fromId(event.frameId);
     window.minimize();
   });
-  ipcMain.on("maximize", (event) => {
+  ipcMain.handle("maximize", (event) => {
     const window = BrowserWindow.fromId(event.frameId);
     if (window.isMaximized()) {
       return window.restore();
     }
     return window.maximize();
   });
-  ipcMain.on("close", (event: any) => {
-    const window = BrowserWindow.fromId(event.frameId);
+  ipcMain.handle("close", (event) => {
+    const window = BrowserWindow.fromWebContents(event.sender);
+    console.log(window);
     window.close();
     // mainWindow.close();
   });
-  ipcMain.on("save-combo", (event, data, title = "Combo.zaic") => {
+  ipcMain.handle("save-combo", (event, data, title = "Combo.zaic") => {
     const options: Electron.SaveDialogOptions = {
       title: "Save Combo",
       buttonLabel: "Save",
@@ -75,12 +82,8 @@ function common(mainWindow: BrowserWindow, __dirname: string) {
     });
     event.sender.send("notification", "Combo Exported!");
   });
-  ipcMain.on("open-combo", (event, arg: string) => {
+  ipcMain.handle("open-combo", (event, arg: string) => {
     const primaryDisplay = screen.getPrimaryDisplay();
-    const displays = screen.getAllDisplays().filter((display, index) => {
-      console.log({ display, index });
-      return true;
-    });
     const DIMENSIONS: NWOpen = {
       width: percentage(primaryDisplay.bounds.width, 90),
       height: 150,
