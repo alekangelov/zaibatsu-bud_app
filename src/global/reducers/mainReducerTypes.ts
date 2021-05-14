@@ -4,6 +4,7 @@ export enum MainReducerActionTypes {
   ADD_COMBO = "@ZAI/ADD_COMBO",
   REMOVE_COMBO = "@ZAI/REMOVE_COMBO",
   EDIT_COMBO = "@ZAI/EDIT_COMBO",
+  IMPORT_COMBOS = "@ZAI/IMPORT_COMBOS",
 }
 
 export type Character = typeof characters[0];
@@ -38,4 +39,8 @@ export type ActionTypes =
   | {
       type: MainReducerActionTypes.EDIT_COMBO;
       payload: Combo;
+    }
+  | {
+      type: MainReducerActionTypes.IMPORT_COMBOS;
+      payload: Combo[];
     };

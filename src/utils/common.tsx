@@ -15,12 +15,17 @@ import {
   eqProps,
   propOr,
   reduce,
+  values,
+  mapObjIndexed,
 } from "ramda";
 import { nanoid } from "nanoid";
+import { Combo } from "../global/reducers/mainReducerTypes";
 
 export function anything<T>(a: T): T {
   return a;
 }
+
+const reduceIndexed = addIndex(reduce);
 
 export const omitCharactersFromObject = omit(["characters"]);
 
@@ -108,3 +113,41 @@ export const propOrFalse: <U extends string, V extends any>(
 
 export const filterLowercaseTags = (string: string) =>
   reduce((acc, elem) => acc && string.toLowerCase() === elem, true);
+
+export const parseJsonFromFile = (file: File) =>
+  new Promise((resolve, reject) => {
+    var reader = new FileReader(); // File reader to read the file
+
+    // This event listener will happen when the reader has read the file
+    reader.addEventListener("load", function () {
+      try {
+        const result = JSON.parse(reader.result as string); // Parse the result into an object
+        resolve(result);
+      } catch (e) {
+        reject(e);
+      }
+    });
+
+    reader.readAsText(file); // Read the uploaded file
+  });
+
+export const validateCombos = (combos: Combo[]) =>
+  reduce((acc, elem) => acc && validateSingleCombo(elem), true, combos);
+
+export const validateSingleCombo = (combo: Combo) => {
+  const validated = values(
+    mapObjIndexed((e, i) => {
+      return comboValidation[i](e);
+    }, combo)
+  );
+  return reduce((acc, elem) => acc && elem, true, validated);
+};
+
+const comboValidation = {
+  name: (e: any) => Boolean(e) && typeof e === "string",
+  inputs: (e: any) => Boolean(e) && typeof e === "string",
+  damage: (e: any) => typeof e === "number" && e >= 0,
+  tags: (e: any) => Boolean(e.length),
+  character: (e: any) => typeof e === "number" && e >= 0,
+  id: (e: any) => Boolean(e) && typeof e === "string",
+};

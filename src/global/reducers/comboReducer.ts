@@ -1,6 +1,11 @@
 import { createReducer } from "typesafe-actions";
 import { ActionTypes, ComboState } from "./mainReducerTypes";
-import { addCombo, editCombo, removeCombo } from "../actions/mainActions";
+import {
+  addCombo,
+  editCombo,
+  importCombos,
+  removeCombo,
+} from "../actions/mainActions";
 import { removeFromArrayWhere, replaceInArrayWhere } from "../../utils/common";
 import { toast } from "react-toastify";
 
@@ -18,4 +23,8 @@ export default createReducer<ComboState, ActionTypes>(comboState)
   .handleAction(editCombo, (state, action) => {
     toast("Sheesh, combo was edited!");
     return replaceInArrayWhere("id", action.payload, state);
+  })
+  .handleAction(importCombos, (state, action) => {
+    toast("Combos successfuly imported!");
+    return [...state, ...action.payload];
   });
