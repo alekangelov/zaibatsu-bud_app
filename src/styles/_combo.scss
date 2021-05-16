@@ -100,3 +100,57 @@
     }
   }
 }
+
+.combo-table {
+  width: 100%;
+  display: none;
+  flex-flow: column;
+  border: 1px solid rgba(white, 0.1);
+  &.open {
+    display: flex;
+  }
+  &-grid {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(8, 1fr);
+    &__single {
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      &:hover {
+        background: rgba(white, 0.1);
+      }
+      justify-content: center;
+      img {
+        width: 100%;
+        height: auto;
+        max-height: 50px;
+      }
+    }
+  }
+  &-header {
+    display: flex;
+    border-bottom: 1px solid rgba(white, 0.1);
+
+    &__single {
+      cursor: pointer;
+      flex-basis: 10%;
+
+      flex-grow: 1;
+      min-width: max-content;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      & + & {
+        border-left: 1px solid rgba(white, 0.1);
+      }
+      &:hover,
+      &.active {
+        background: rgba(white, 0.1);
+        border-left: 1px solid transparent;
+      }
+    }
+  }
+}

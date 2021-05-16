@@ -15,3 +15,8 @@ export const notificationService = () => {
   ipcRenderer.on("notification", toastListener);
   () => ipcRenderer.off("notification", toastListener);
 };
+
+export const fileOpen = (cb: (reply: any) => any) => {
+  ipcRenderer.on("get-opened-files", cb);
+  () => ipcRenderer.off("notification", cb);
+};

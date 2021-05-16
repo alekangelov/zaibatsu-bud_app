@@ -146,6 +146,9 @@ $singleWidth: percent(12);
   &.align-center {
     align-items: center;
   }
+  &.space-between {
+    justify-content: space-between;
+  }
 }
 
 @each $name, $point in $viewport-layouts {
@@ -182,4 +185,8 @@ $singleWidth: percent(12);
 
 .d-flex {
   display: flex;
+}
+
+.col {
+  margin-bottom: $gutter-width;
 }

@@ -9,6 +9,7 @@ import { faPlus, faRedo, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Combo } from "../../global/reducers/mainReducerTypes";
 import * as yup from "yup";
 import ComboPreview from "../ComboSuite/ComboPreview";
+import ComboTable from "../ComboSuite/ComboTable";
 import useAction from "../../global/helpers/useAction";
 import {
   addCombo,
@@ -27,10 +28,11 @@ const initialValues: Combo = {
 };
 
 const NewEditCombo: React.FC<any> = () => {
-  const { character: selectedCharacter, combo: selectedCombo } = useParams<{
-    character: string;
-    combo: string;
-  }>();
+  const { character: selectedCharacter, combo: selectedCombo } =
+    useParams<{
+      character: string;
+      combo: string;
+    }>();
   const { character, combo } = useAppSelector((state) => {
     const character = state.characters.find(
       (e) => e.id === parseInt(selectedCharacter)
@@ -85,73 +87,84 @@ const NewEditCombo: React.FC<any> = () => {
             })}
             onSubmit={handleSubmit}
           >
-            {(formik) => (
-              <Form>
-                <div className="row">
-                  <TextInput
-                    parentClassName="col-md-4"
-                    name="name"
-                    label="Name"
-                  />
-                  <TextInput
-                    parentClassName="col-md-4"
-                    name="damage"
-                    label="Damage"
-                  />
-                  <TagInput
-                    parentClassName="col-md-4"
-                    name="tags"
-                    label="Tags (hit enter after each tag)"
-                  />
-                  <TextInput
-                    parentClassName="col-md-12"
-                    name="inputs"
-                    label="Combo string"
-                  />
-                  <div className="col-md-12">
-                    <h2>Preview</h2>
-                    <ComboPreview
-                      combo={formik.values.inputs}
-                      name={formik.values.name}
-                      tags={formik.values.tags}
-                      num={1}
-                      damage={formik.values.damage}
+            {(formik) => {
+              return (
+                <Form>
+                  <div className="row">
+                    <TextInput
+                      parentClassName="col-md-4"
+                      name="name"
+                      label="Name"
                     />
-                  </div>
-                </div>
-                <div className="row m-t-5">
-                  <div className="col-md-2 d-flex">
-                    <IconButton type="submit" className="m-r-4" icon={faPlus}>
-                      Submit
-                    </IconButton>
-                    <IconButton
-                      className="m-r-4"
-                      type="reset"
+                    <TextInput
+                      parentClassName="col-md-4"
+                      name="damage"
+                      label="Damage"
+                    />
+                    <TagInput
+                      parentClassName="col-md-4"
+                      name="tags"
+                      label="Tags (hit enter after each tag)"
+                    />
+                    <TextInput
+                      parentClassName="col-md-12"
+                      name="inputs"
+                      label="Combo string"
+                    />
+                    <ComboTable
                       onClick={(e) => {
-                        e.preventDefault();
-                        formik.resetForm();
+                        console.log(formik.values);
+                        formik.setFieldValue(
+                          "inputs",
+                          `${formik.values.inputs} ${e}`
+                        );
                       }}
-                      icon={faRedo}
-                    >
-                      Reset
-                    </IconButton>
-                    {truthy(combo) && (
+                    />
+                    <div className="col-md-12">
+                      <h2>Preview</h2>
+                      <ComboPreview
+                        combo={formik.values.inputs}
+                        name={formik.values.name}
+                        tags={formik.values.tags}
+                        num={1}
+                        damage={formik.values.damage}
+                      />
+                    </div>
+                  </div>
+                  <div className="row m-t-5">
+                    <div className="col-md-2 d-flex">
+                      <IconButton type="submit" className="m-r-4" icon={faPlus}>
+                        Submit
+                      </IconButton>
                       <IconButton
+                        className="m-r-4"
                         type="reset"
                         onClick={(e) => {
                           e.preventDefault();
-                          removeComboAction(combo);
-                          push(`/character/${character?.id}`);
+                          formik.resetForm();
                         }}
-                        icon={faTrash}
+                        icon={faRedo}
                       >
-                        Delete
+                        Reset
                       </IconButton>
-                    )}
+                      {truthy(combo) && (
+                        <IconButton
+                          type="reset"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            removeComboAction(combo);
+                            push(`/character/${character?.id}`);
+                          }}
+                          icon={faTrash}
+                        >
+                          Delete
+                        </IconButton>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </Form>
-            )}
+                </Form>
+              );
+            }}
           </Formik>
         </div>
       </div>

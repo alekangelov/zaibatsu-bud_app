@@ -44,7 +44,7 @@ export function truthy<T>(value: T): value is Truthy<T> {
 }
 
 export const isUppercase = (string: string) =>
-  new RegExp(`[A-Z\s]+`).test(string);
+  new RegExp("^[A-Z]+$").test(string);
 
 export const ifUpperCaseAddSuffix = (string: string) =>
   isUppercase(string) ? `${string.toLowerCase()}uc` : string;
