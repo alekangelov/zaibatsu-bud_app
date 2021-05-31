@@ -11,8 +11,7 @@
       {
         "name": "Zaibatsu Combo",
         "description": "Combo file for Tekken 7",
-        "icon": "file_icon.ico",
-        "perMachine": true,
+        "icon": "file_icon.icns",
         "role": "Editor",
         "ext": [
           "zaic"
