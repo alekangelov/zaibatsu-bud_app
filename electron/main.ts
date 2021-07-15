@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen } from "electron";
+import { app, BrowserWindow, dialog, screen } from "electron";
 import * as path from "path";
 import * as url from "url";
 import installExtension, {
@@ -6,6 +6,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer";
 import * as events from "./events";
+import { autoUpdater } from "electron";
 
 try {
   const remote = require("@electron/remote/main");
@@ -71,6 +72,7 @@ function createWindow() {
   });
 
   events.common(mainWindow, __dirname);
+  events.updates(mainWindow, __dirname);
 }
 
 app.on("ready", createWindow);
