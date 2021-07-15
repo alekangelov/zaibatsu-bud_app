@@ -96,7 +96,8 @@
     "watch:electron": "env-cmd -f ./.env.electron.dev tsc --watch --project electron/tsconfig.json",
     "start:react": "env-cmd -f ./.env.electron.dev craco start",
     "start:react-web": "env-cmd -f ./.env.web.dev craco start",
-    "dist": "env-cmd -f ./.env.electron.prod npm run build && npm run build:electron && electron-builder build -mwl -c.extraMetadata.main=build/electron/main.js"
+    "dist": "yarn pre:dist && electron-builder build -mwl -c.extraMetadata.main=build/electron/main.js",
+    "pre:dist": "env-cmd -f ./.env.electron.prod npm run build && npm run build:electron"
   },
   "eslintConfig": {
     "extends": [
