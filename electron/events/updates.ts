@@ -23,8 +23,7 @@ const updates = (mainWindow: BrowserWindow, __dirname: string) => {
         console.error(e);
       }
     };
-    if (process.env.NODE_ENV === "production") return getUpdates();
-    event.sender.send("updateResponse", true);
+    getUpdates();
   });
   ipcMain.on("doUpdate", (event) => {
     autoUpdater.quitAndInstall();

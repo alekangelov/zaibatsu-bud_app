@@ -45,7 +45,7 @@ const DEFAULTS = {
   x: 50,
   y: 50,
   webPreferences: {
-    allowRunningInsecureContent: true,
+    // allowRunningInsecureContent: true,
     nodeIntegration: true,
     contextIsolation: false,
   },

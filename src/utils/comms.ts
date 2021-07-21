@@ -45,3 +45,14 @@ export const updateService = () => {
     ipcRenderer.off("updateResponse", updateListener);
   };
 };
+
+const envListener = (event: any, env: string) =>
+  console.log(`IPC Main Env: ${env}`);
+
+export const envService = () => {
+  ipcRenderer.send("getNodeEnv");
+  ipcRenderer.on("NODE_ENV", envListener);
+  return () => {
+    ipcRenderer.off("NODE_ENV", envListener);
+  };
+};

@@ -35,7 +35,7 @@ const makeNewWindow = (
     y: options.y,
     alwaysOnTop: options.onTop,
     webPreferences: {
-      allowRunningInsecureContent: true,
+      // allowRunningInsecureContent: true,
       nodeIntegration: true,
       contextIsolation: false,
     },
@@ -59,6 +59,7 @@ function common(mainWindow: BrowserWindow, __dirname: string) {
   });
   ipcMain.handle("maximize", (event) => {
     const window = BrowserWindow.fromId(event.frameId);
+    console.log(window.isMaximized());
     if (window.isMaximized()) {
       return window.restore();
     }
@@ -66,7 +67,6 @@ function common(mainWindow: BrowserWindow, __dirname: string) {
   });
   ipcMain.handle("close", (event) => {
     const window = BrowserWindow.fromWebContents(event.sender);
-    console.log(window);
     window.close();
     // mainWindow.close();
   });
@@ -92,6 +92,10 @@ function common(mainWindow: BrowserWindow, __dirname: string) {
       onTop: true,
     };
     const window = makeNewWindow(arg, DIMENSIONS, __dirname, true);
+  });
+  ipcMain.on("getNodeEnv", (event) => {
+    console.log("nodeenv");
+    event.sender.send("NODE_ENV", process.env.NODE_ENV);
   });
 }
 

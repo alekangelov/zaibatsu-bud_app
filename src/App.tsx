@@ -14,6 +14,7 @@ import { RouterRoot } from "./components/RouterRoot";
 import NotificationService from "./utils/Services/NotificationService";
 import UpdateService from "./utils/Services/UpdateService";
 import AlertProvider from "react-alert-async";
+import EnvService from "./utils/Services/EnvService";
 const { store, persistor } = makeStore();
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
           <PersistGate loading={null} persistor={persistor}>
             <UpdateService />
             <NotificationService />
+            <EnvService />
             <AutoHideScrollbar>
               <AnimatedSwitch />
             </AutoHideScrollbar>
