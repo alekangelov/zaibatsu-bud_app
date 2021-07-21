@@ -1,4 +1,4 @@
-import { BrowserWindow, dialog, ipcMain } from "electron";
+import { BrowserWindow, dialog, ipcMain, app } from "electron";
 import { autoUpdater } from "electron-updater";
 import * as dayjs from "dayjs";
 
@@ -33,7 +33,15 @@ const updates = (mainWindow: BrowserWindow, __dirname: string) => {
     getUpdates();
   });
   ipcMain.on("doUpdate", (event) => {
-    autoUpdater.quitAndInstall();
+    try {
+      autoUpdater.quitAndInstall();
+      setTimeout(() => {
+        app.relaunch();
+        app.exit(0);
+      }, 6000);
+    } catch (e) {
+      dialog.showErrorBox("Error", "Failed to install updates");
+    }
   });
 };
 
