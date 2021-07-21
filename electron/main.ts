@@ -6,7 +6,6 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer";
 import * as events from "./events";
-import { autoUpdater } from "electron";
 
 try {
   const remote = require("@electron/remote/main");
@@ -82,6 +81,8 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
+
+app.setAsDefaultProtocolClient("zaibatsu");
 
 app.on("activate", () => {
   if (mainWindow === null) {
