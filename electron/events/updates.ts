@@ -12,6 +12,7 @@ const updates = (mainWindow: BrowserWindow, __dirname: string) => {
       host: "github.com",
       protocol: "http",
       token: process.env.GH_TOKEN,
+      releaseType: "draft",
     });
     const getUpdates = async () => {
       try {
