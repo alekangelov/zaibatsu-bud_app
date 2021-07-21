@@ -19,13 +19,7 @@ const updates = (mainWindow: BrowserWindow, __dirname: string) => {
       try {
         const updates = await autoUpdater.checkForUpdatesAndNotify();
         const downloadpromise = await updates.downloadPromise;
-        const { nextRelease, currRelease } = {
-          nextRelease: updates.updateInfo.releaseDate,
-          currRelease: updates.versionInfo.releaseDate,
-        };
-        if (dayjs(currRelease).diff(nextRelease) > 0) {
-          event.sender.send("updateResponse", true);
-        }
+        event.sender.send("updateResponse", true);
       } catch (e) {
         console.error(e);
       }
