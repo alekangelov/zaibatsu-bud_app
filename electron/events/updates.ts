@@ -17,7 +17,7 @@ const updates = (mainWindow: BrowserWindow, __dirname: string) => {
     });
     const getUpdates = async () => {
       try {
-        const updates = await autoUpdater.checkForUpdatesAndNotify();
+        const updates = await autoUpdater.checkForUpdates();
         const downloadpromise = await updates.downloadPromise;
         event.sender.send("updateResponse", true);
       } catch (e) {
