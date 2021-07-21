@@ -33,5 +33,6 @@ jobs:
         uses: samuelmeuli/action-electron-builder@v1.6.0
         with:
           release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          github_token: ${{ secrets.github_token }}
           build_script_name: pre:dist,
           args: "-c.extraMetadata.main=build/electron/main.js"
