@@ -1,7 +1,8 @@
 import { ipcRenderer } from "electron";
 import { toast } from "react-toastify";
-import UpdateAvalable from "../components/util/UpdateAvalable";
 import { confirm } from "react-alert-async";
+
+export const sendUpdate = () => ipcRenderer.send("doUpdate");
 
 export const openModalAt = (location: string) => {
   ipcRenderer.invoke("open-combo", location);
@@ -21,7 +22,7 @@ const updateListener = (event: any, data: boolean) =>
       title: "⚙ Update avalable",
       className: "Jakoto",
     }
-  );
+  ).then((e) => sendUpdate());
 
 export const notificationService = () => {
   ipcRenderer.on("notification", toastListener);
@@ -44,5 +45,3 @@ export const updateService = () => {
     ipcRenderer.off("updateResponse", updateListener);
   };
 };
-
-export const sendUpdate = () => ipcRenderer.send("doUpdate");

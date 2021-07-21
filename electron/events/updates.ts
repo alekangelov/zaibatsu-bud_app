@@ -7,20 +7,26 @@ const updates = (mainWindow: BrowserWindow, __dirname: string) => {
     autoUpdater.setFeedURL({
       provider: "github",
       owner: "alekangelov",
+      repo: "zaibatsu-bud_app",
       vPrefixedTagName: true,
       host: "github.com",
-      protocol: "https",
-      token: "",
+      protocol: "http",
+      token: process.env.GH_TOKEN,
     });
-
-    autoUpdater.on("update-downloaded", () => {
-      if (process.env.NODE_ENV === "production") {
+    const getUpdates = async () => {
+      try {
+        const updates = await autoUpdater.checkForUpdates();
+        console.log({ updates });
         event.sender.send("updateResponse", true);
+      } catch (e) {
+        console.error(e);
       }
-    });
+    };
+    if (process.env.NODE_ENV === "production") return getUpdates();
+    event.sender.send("updateResponse", true);
   });
   ipcMain.on("doUpdate", (event) => {
-    console.log("update this shit");
+    autoUpdater.quitAndInstall();
   });
 };
 

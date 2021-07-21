@@ -53,8 +53,8 @@ interface SelectInputProps
     HTMLSelectElement
   > {
   parentClassName?: string;
-  label: string;
-  items: Array<{ label: string; value: any }>;
+  label?: string;
+  items: Array<{ label: string; value: any; disabled?: boolean }>;
 }
 
 export const SelectInput: React.FC<SelectInputProps> = ({
@@ -74,12 +74,12 @@ export const SelectInput: React.FC<SelectInputProps> = ({
   return (
     <div
       className={clsx(
-        "form-control",
+        "form-control--select",
         parentClassName,
         meta.touched && meta.error && "error"
       )}
     >
-      <label htmlFor={field.name}>{label}</label>
+      {label && <label htmlFor={field.name}>{label}</label>}
 
       <div className="form-control_input--wrapper">
         <div className="form-control_input--icon">
@@ -89,7 +89,11 @@ export const SelectInput: React.FC<SelectInputProps> = ({
           {rest.placeholder && <option disabled>{rest.placeholder}</option>}
           {items.map((singleItem) => {
             return (
-              <option value={singleItem.label} key={singleItem.label}>
+              <option
+                disabled={singleItem.disabled}
+                value={singleItem.value}
+                key={singleItem.value}
+              >
                 {singleItem.label}
               </option>
             );
