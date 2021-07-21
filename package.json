@@ -3,7 +3,7 @@
   "version": "0.2.1",
   "private": true,
   "license": "MIT",
-  "repository": "https://github.com/alekangelov/zaibatsu-bud_app",
+  "repository": "git@github.com:alekangelov/zaibatsu-bud_app.git",
   "scripts": {
     "build": "craco build",
     "start": "cross-env ELECTRON_ENABLE_LOGGING=true && nf start -p 5000",

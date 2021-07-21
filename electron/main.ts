@@ -7,6 +7,8 @@ import installExtension, {
 } from "electron-devtools-installer";
 import * as events from "./events";
 
+process.env.NODE_ENV = process.env.NODE_ENV || "production";
+
 try {
   const remote = require("@electron/remote/main");
   remote.initialize();
