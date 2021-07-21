@@ -215,7 +215,7 @@ interface RadioUncontrolledProps
   label: string;
 }
 
-const RadioUncontrolled: React.FC<RadioUncontrolledProps> = ({
+export const RadioUncontrolled: React.FC<RadioUncontrolledProps> = ({
   value,
   valueChecked,
   label,

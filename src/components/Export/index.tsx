@@ -12,34 +12,30 @@ import dayjs from "dayjs";
 const ExportInner = () => {
   const {
     values: { tag, character, name },
-  } =
-    useFormikContext<{
-      tag: string;
-      character: Number;
-      name: string;
-    }>();
-  const { characters, characterSelectItems, filteredCombos } = useAppSelector(
-    (state) => ({
-      characters: state.characters,
-      characterSelectItems: [
-        { label: "All", value: -1 },
-        ...state.characters.map((e) => ({
-          label: e.name,
-          value: e.id,
-        })),
-      ],
-      filteredCombos: state.combos.filter((e) => {
-        const condition = !tag
-          ? true
-          : filterLowercaseTags(tag)(e.tags) &&
-            e.name.toLowerCase().includes(name.toLowerCase()) &&
-            character === -1
-          ? true
-          : e.character === character;
-        return condition;
-      }),
-    })
-  );
+  } = useFormikContext<{
+    tag: string;
+    character: Number;
+    name: string;
+  }>();
+  const { characterSelectItems, filteredCombos } = useAppSelector((state) => ({
+    characterSelectItems: [
+      { label: "All", value: -1 },
+      ...state.characters.map((e) => ({
+        label: e.name,
+        value: e.id,
+      })),
+    ],
+    filteredCombos: state.combos.filter((e) => {
+      const condition = !tag
+        ? true
+        : filterLowercaseTags(tag)(e.tags) &&
+          e.name.toLowerCase().includes(name.toLowerCase()) &&
+          character === -1
+        ? true
+        : e.character === character;
+      return condition;
+    }),
+  }));
   return (
     <div className="export m-t-5">
       <div className="export-filter m-b-5">

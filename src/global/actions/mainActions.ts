@@ -1,5 +1,4 @@
 import { nanoid } from "nanoid";
-import { map } from "ramda";
 import { createAction } from "typesafe-actions";
 import { Combo, MainReducerActionTypes } from "../reducers/mainReducerTypes";
 

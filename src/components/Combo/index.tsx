@@ -28,11 +28,10 @@ const initialValues: Combo = {
 };
 
 const NewEditCombo: React.FC<any> = () => {
-  const { character: selectedCharacter, combo: selectedCombo } =
-    useParams<{
-      character: string;
-      combo: string;
-    }>();
+  const { character: selectedCharacter, combo: selectedCombo } = useParams<{
+    character: string;
+    combo: string;
+  }>();
   const { character, combo } = useAppSelector((state) => {
     const character = state.characters.find(
       (e) => e.id === parseInt(selectedCharacter)
@@ -57,6 +56,7 @@ const NewEditCombo: React.FC<any> = () => {
       addComboAction(finalCombo);
     }
     push(`/character/${character?.id}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="character">

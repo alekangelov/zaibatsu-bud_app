@@ -1,11 +1,10 @@
 import { faFileImport } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
-import { nanoid } from "nanoid";
 import * as React from "react";
 import { useDropzone } from "react-dropzone";
 import { useHistory } from "react-router";
 import { toast } from "react-toastify";
-import { addCombo, importCombos } from "../../global/actions/mainActions";
+import { importCombos } from "../../global/actions/mainActions";
 import useAction from "../../global/helpers/useAction";
 import { Combo } from "../../global/reducers/mainReducerTypes";
 import { parseJsonFromFile, validateCombos } from "../../utils/common";

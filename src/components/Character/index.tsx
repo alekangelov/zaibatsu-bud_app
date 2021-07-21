@@ -1,9 +1,7 @@
 import {
   faEdit,
   faExternalLinkAlt,
-  faNotEqual,
   faPlus,
-  faSortAmountDown,
 } from "@fortawesome/free-solid-svg-icons";
 import * as React from "react";
 import { useHistory, useParams } from "react-router";
@@ -24,7 +22,6 @@ const CharacterOverview: React.FC = () => {
     },
     onSubmit: (values) => {},
   });
-  const [damageSort, setDamageSort] = React.useState(false);
   const { character, combos } = useAppSelector((state) => {
     console.log();
     const character = state.characters.find((e) => e.id === parseInt(id));

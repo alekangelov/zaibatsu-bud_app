@@ -3,11 +3,7 @@ import { capitalCase } from "change-case";
 import inputs from "./inputs";
 import { keys } from "ramda";
 import IconButton from "../IconButton";
-import {
-  faChevronDown,
-  faChevronUp,
-  faExpand,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import getPublic from "../../utils/getPublic";
 import { suffixAndSort } from "../../utils/common";
@@ -75,6 +71,7 @@ const ComboTable: React.FC<TableProps> = ({ onClick, initialOpen = false }) => {
                   onClick={sendOnClick(e)}
                 >
                   <img
+                    alt={suffixAndSort(e)}
                     src={getPublic(
                       `/images/stringBuilder/${suffixAndSort(e)}.svg`
                     )}
@@ -83,10 +80,13 @@ const ComboTable: React.FC<TableProps> = ({ onClick, initialOpen = false }) => {
               )
           )}
           <div onClick={sendOnClick(",")} className="combo-table-grid__single">
-            <img src={getPublic(`/images/stringBuilder/next.svg`)} />
+            <img alt="next" src={getPublic(`/images/stringBuilder/next.svg`)} />
           </div>
           <div onClick={sendOnClick("N")} className="combo-table-grid__single">
-            <img src={getPublic(`/images/stringBuilder/nuc.svg`)} />
+            <img
+              alt="neutral"
+              src={getPublic(`/images/stringBuilder/nuc.svg`)}
+            />
           </div>
         </div>
       </div>

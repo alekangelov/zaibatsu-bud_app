@@ -25,7 +25,7 @@ export function anything<T>(a: T): T {
   return a;
 }
 
-const reduceIndexed = addIndex(reduce);
+export const reduceIndexed = addIndex(reduce);
 
 export const omitCharactersFromObject = omit(["characters"]);
 
