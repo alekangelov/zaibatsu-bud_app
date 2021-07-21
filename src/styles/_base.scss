@@ -69,6 +69,9 @@ body {
   }
   .icon {
     margin-right: 1rem;
+    &.empty {
+      margin-right: 0;
+    }
   }
 }
 

@@ -19,6 +19,11 @@
 .env.test.local
 .env.production.local
 
+.env.electron.dev
+.env.electron.prod
+.env.web.dev
+.env.web.prod
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

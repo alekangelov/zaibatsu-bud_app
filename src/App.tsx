@@ -6,17 +6,20 @@ import { PersistGate } from "redux-persist/integration/react";
 import { HashRouter } from "react-router-dom";
 import { ToastContainer, cssTransition } from "react-toastify";
 import AutoHideScrollbar from "./components/AutoHiddenScrollbar";
-import "react-toastify/dist/ReactToastify.css";
 import "./styles/index.scss";
+import "react-toastify/dist/ReactToastify.css";
+import "react-alert-async/dist/index.css";
 import { AnimatedSwitch } from "./routes";
 import { RouterRoot } from "./components/RouterRoot";
-import { notificationService } from "./utils/comms";
 import NotificationService from "./utils/Services/NotificationService";
+import UpdateService from "./utils/Services/UpdateService";
+import AlertProvider from "react-alert-async";
 const { store, persistor } = makeStore();
 
 function App() {
   return (
     <HashRouter>
+      <AlertProvider />
       <ToastContainer
         position="bottom-right"
         autoClose={2500}
@@ -37,6 +40,7 @@ function App() {
       <Provider store={store}>
         <RouterRoot>
           <PersistGate loading={null} persistor={persistor}>
+            <UpdateService />
             <NotificationService />
             <AutoHideScrollbar>
               <AnimatedSwitch />
