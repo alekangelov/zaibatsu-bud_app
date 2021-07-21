@@ -1,5 +1,6 @@
 import { BrowserWindow, dialog, ipcMain } from "electron";
 import { autoUpdater } from "electron-updater";
+import * as dayjs from "dayjs";
 
 const updates = (mainWindow: BrowserWindow, __dirname: string) => {
   ipcMain.on("checkUpdates", (event) => {
@@ -16,9 +17,15 @@ const updates = (mainWindow: BrowserWindow, __dirname: string) => {
     });
     const getUpdates = async () => {
       try {
-        const updates = await autoUpdater.checkForUpdates();
-        console.log({ updates });
-        event.sender.send("updateResponse", true);
+        const updates = await autoUpdater.checkForUpdatesAndNotify();
+        const downloadpromise = await updates.downloadPromise;
+        const { nextRelease, currRelease } = {
+          nextRelease: updates.updateInfo.releaseDate,
+          currRelease: updates.versionInfo.releaseDate,
+        };
+        if (dayjs(currRelease).diff(nextRelease) > 0) {
+          event.sender.send("updateResponse", true);
+        }
       } catch (e) {
         console.error(e);
       }
