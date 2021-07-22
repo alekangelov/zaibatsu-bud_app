@@ -1,5 +1,5 @@
 import { BrowserWindow, dialog, ipcMain, app } from "electron";
-import { autoUpdater } from "electron-updater";
+import { autoUpdater, ProgressInfo } from "electron-updater";
 import * as dayjs from "dayjs";
 
 const updates = (mainWindow: BrowserWindow, __dirname: string) => {
@@ -18,8 +18,6 @@ const updates = (mainWindow: BrowserWindow, __dirname: string) => {
     const getUpdates = async () => {
       try {
         const updates = await autoUpdater.checkForUpdates();
-        const downloadpromise = await updates.downloadPromise;
-        event.sender.send("updateResponse", true);
       } catch (e) {
         console.error(e);
       }
@@ -36,6 +34,12 @@ const updates = (mainWindow: BrowserWindow, __dirname: string) => {
     } catch (e) {
       dialog.showErrorBox("Error", "Failed to install updates");
     }
+  });
+  autoUpdater.on("update-available", (info) => {
+    ipcMain.emit("updateResponse", true);
+  });
+  autoUpdater.on("download-progress", (progressObj: ProgressInfo) => {
+    ipcMain.emit("downloadProgress", progressObj.percent);
   });
 };
 
