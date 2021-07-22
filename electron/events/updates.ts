@@ -22,7 +22,7 @@ const updates = (mainWindow: BrowserWindow, __dirname: string) => {
         console.error(e);
       }
     };
-    getUpdates();
+    if (process.env.NODE_ENV !== "development") getUpdates();
   });
   ipcMain.on("doUpdate", (event) => {
     try {

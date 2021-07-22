@@ -1,4 +1,4 @@
-import characters from "../../data/characters.json";
+import characters from "../../data/characters";
 
 export enum MainReducerActionTypes {
   ADD_COMBO = "@ZAI/ADD_COMBO",

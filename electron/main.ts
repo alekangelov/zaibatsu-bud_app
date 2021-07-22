@@ -41,7 +41,7 @@ const DIMENSIONS = {
 const DEFAULTS = {
   width: DIMENSIONS.W,
   height: DIMENSIONS.H,
-  frame: process.platform === "linux",
+  frame: false,
   // titleBarStyle: "hidden",
   transparent: false,
   x: 50,
