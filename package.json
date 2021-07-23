@@ -44,9 +44,7 @@
       ]
     },
     "appImage": {
-      "license": "LICENSE",
-      "target": "nsis",
-      "requestedExecutionLevel": "requireAdministrator"
+      "license": "LICENSE"
     },
     "nsis": {
       "guid": "3478dad0-f768-412b-b7f3-a18e481e7f9b",
