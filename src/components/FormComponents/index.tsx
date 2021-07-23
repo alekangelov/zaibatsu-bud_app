@@ -2,17 +2,17 @@ import * as React from "react";
 import { useField, useFormikContext } from "formik";
 import clsx from "clsx";
 import mergeProps from "merge-props";
-import { removeLast } from "../../utils/common";
-import { useDeepCallback } from "../../utils/hooks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import Select from "react-select";
+import tags from "../../data/tags";
 interface TextInputProps
   extends React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {
   parentClassName?: string;
-  label: string;
+  label?: string;
   long?: boolean;
 }
 
@@ -38,7 +38,7 @@ export const TextInput: React.FC<TextInputProps> = ({
         meta.touched && meta.error && "error"
       )}
     >
-      <label htmlFor={field.name}>{label}</label>
+      {label && <label htmlFor={field.name}>{label}</label>}
       {long ? <textarea {...mergedProps} /> : <input {...mergedProps} />}
       {meta.touched && meta.error && (
         <span className="form-control__error">{meta.error}</span>
@@ -65,12 +65,8 @@ export const SelectInput: React.FC<SelectInputProps> = ({
   ...rest
 }) => {
   const [field, meta] = useField(name || "");
-  const mergedProps = {
-    ...mergeProps(rest, field, {
-      className: "form-control_input",
-      id: field.name,
-    }),
-  };
+  const formik = useFormikContext();
+
   return (
     <div
       className={clsx(
@@ -82,23 +78,12 @@ export const SelectInput: React.FC<SelectInputProps> = ({
       {label && <label htmlFor={field.name}>{label}</label>}
 
       <div className="form-control_input--wrapper">
-        <div className="form-control_input--icon">
-          <FontAwesomeIcon icon={faChevronDown} color="white" />
-        </div>
-        <select {...mergedProps}>
-          {rest.placeholder && <option disabled>{rest.placeholder}</option>}
-          {items.map((singleItem) => {
-            return (
-              <option
-                disabled={singleItem.disabled}
-                value={singleItem.value}
-                key={singleItem.value}
-              >
-                {singleItem.label}
-              </option>
-            );
-          })}
-        </select>
+        <Select
+          onChange={(e) => formik.setFieldValue(field.name, e?.value)}
+          classNamePrefix="select"
+          options={items}
+          placeholder={rest.placeholder}
+        />
       </div>
       {meta.touched && meta.error && (
         <span className="form-control__error">{meta.error}</span>
@@ -115,73 +100,28 @@ export const TagInput: React.FC<TextInputProps> = ({
 }) => {
   const [field, meta] = useField<string[]>(name || "");
   const formik = useFormikContext();
-  const [value, setValue] = React.useState("");
-  const handleKeyDown = React.useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      const lcKey = e.key.toLowerCase();
-      if (lcKey === "enter" || lcKey === "tab") {
-        if (lcKey === "enter") e.preventDefault();
-        if (value) {
-          formik.setFieldValue(field.name, [...field.value, value]);
-          setValue("");
-        }
-      }
-      if (lcKey === "backspace" && !value) {
-        e.preventDefault();
-        formik.setFieldValue(field.name, removeLast(field.value));
-      }
-    },
-    [field.value, value, field.name, formik]
-  );
-  const handleDelete = useDeepCallback(
-    (index: number) => {
-      const newArray =
-        field.value.length === 1
-          ? []
-          : field.value.filter((e, i) => i !== index);
-      formik.setFieldValue(field.name, newArray);
-    },
-    [field]
-  );
   return (
     <div
+      style={rest.style}
       className={clsx(
         "form-control",
         parentClassName,
         meta.touched && meta.error && "error"
       )}
     >
-      <label htmlFor={field.name}>{label}</label>
+      {label && <label htmlFor={field.name}>{label}</label>}
       <div className="form-control_fake tags">
-        <div className="form-control_fake--bg"></div>
-        {Boolean(field.value.length) && (
-          <div className="tags-inner">
-            {field.value.map((e, i) => (
-              <span
-                onClick={() => handleDelete(i)}
-                className="tags-single"
-                key={e + i}
-              >
-                {e}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <input
-          value={value}
-          type="text"
-          className="base_input"
-          name="tag"
-          id={field.name}
-          onBlur={() => formik.setTouched(field, true)}
-          onKeyDown={handleKeyDown}
-          onChange={(e) => setValue(e.target.value)}
+        <Select
+          classNamePrefix="select"
+          isMulti
+          options={tags}
+          placeholder={rest.placeholder}
+          onChange={(e) => formik.setFieldValue(field.name, e)}
         />
       </div>
-      {meta.touched && meta.error && (
+      {/* {meta.touched && meta.error && (
         <span className="form-control__error">{meta.error}</span>
-      )}
+      )} */}
     </div>
   );
 };

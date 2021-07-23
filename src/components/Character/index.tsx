@@ -10,16 +10,18 @@ import CharacterBg from "../CharacterBg";
 import ComboPreview from "../ComboSuite/ComboPreview";
 import IconButton from "../IconButton";
 import { openModalAt } from "../../utils/comms";
-import { SelectInput } from "../FormComponents";
+import { SelectInput, TagInput, TextInput } from "../FormComponents";
 import { FormikProvider, useFormik } from "formik";
-import { ComboState } from "../../global/reducers/mainReducerTypes";
+import { sortAndFilter, SortFitlerProps } from "../../utils/common";
 
 const CharacterOverview: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const formik = useFormik({
     initialValues: {
       sort: "",
-    },
+      name: "",
+      tags: [],
+    } as SortFitlerProps,
     onSubmit: (values) => {},
   });
   const { character, combos } = useAppSelector((state) => {
@@ -28,58 +30,54 @@ const CharacterOverview: React.FC = () => {
     return { character, combos };
   });
   const { push } = useHistory();
-  const sortFn = React.useCallback(
-    (sortable: ComboState = []) => {
-      if (formik.values.sort) {
-        if (formik.values.sort === "date") return sortable.reverse();
-        return sortable.sort((a, b) => {
-          switch (formik.values.sort) {
-            case "damage":
-              return b.damage - a.damage;
-            case "alphabetic":
-              if (a.name < b.name) {
-                return -1;
-              }
-              if (a.name > b.name) {
-                return 1;
-              }
-              return 0;
-            default:
-              return 0;
-          }
-        });
-      }
-      return sortable;
-    },
-    [formik.values.sort]
-  );
   return (
     <FormikProvider value={formik}>
       <div className="character">
         <CharacterBg character={character} />
         <div className="container">
-          <div className="character-header m-b-10">
-            <h1 className="impact">{character?.name}</h1>
-            <div className="row align-center">
-              <SelectInput
-                name="sort"
-                placeholder="Sort By"
-                items={[
-                  { label: "Regular", value: "" },
-                  { label: "Date", value: "date" },
-                  { label: "Damage", value: "damage" },
-                  { label: "Alphabetic", value: "alphabetic" },
-                ]}
-              />
-              <IconButton
-                className="m-l-2"
-                onClick={() => {
-                  push(`/combo/new/${character?.id}`);
-                }}
-                icon={faPlus}
-              >
-                New Combo
-              </IconButton>
+          <div className="row align-center space-between m-b-10 p-t-10">
+            <div className="col-md-6">
+              <h1 className="impact">{character?.name}</h1>
+            </div>
+            <div className="col-md-0">
+              <div className="row align-center space-between">
+                <div className="col-md-0">
+                  <IconButton
+                    onClick={() => {
+                      push(`/combo/new/${character?.id}`);
+                    }}
+                    icon={faPlus}
+                  >
+                    New Combo
+                  </IconButton>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-12">
+              <div className="row align-center">
+                <div className="col-md-4">
+                  <TextInput name="name" placeholder="Name" />
+                </div>
+                <div className="col-md-4">
+                  <SelectInput
+                    name="sort"
+                    placeholder="Sort By"
+                    items={[
+                      { label: "Regular", value: "" },
+                      { label: "Date", value: "date" },
+                      { label: "Damage", value: "damage" },
+                      { label: "Alphabetic", value: "alphabetic" },
+                    ]}
+                  />
+                </div>
+                <div className="col-md-4">
+                  <TagInput
+                    style={{ minWidth: "256px" }}
+                    name="tags"
+                    placeholder="Filter tags"
+                  />
+                </div>
+              </div>
             </div>
           </div>
           {!Boolean(combos.length) && (
@@ -87,7 +85,7 @@ const CharacterOverview: React.FC = () => {
               <h1>No combos for {character?.name}</h1>
             </div>
           )}
-          {sortFn(combos).map((e, i) => {
+          {sortAndFilter(combos)(formik.values).map((e, i) => {
             return (
               <div key={e.id} className="m-b-5 combo-overview">
                 <div className="combo-overview_overlay">

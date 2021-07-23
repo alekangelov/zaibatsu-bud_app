@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import * as React from "react";
+import { Tags } from "../../data/tags";
 import getPublic from "../../utils/getPublic";
 import { useComboParser } from "./CompoParser";
 
@@ -8,7 +9,7 @@ interface ComboPreviewProps {
   name: string;
   damage?: number | string;
   num?: number | string;
-  tags?: Array<string>;
+  tags?: Tags;
   comboView?: boolean;
 }
 
@@ -51,7 +52,7 @@ const ComboPreview: React.FC<ComboPreviewProps> = React.memo(
               <div className="tags-inner">
                 {tags.map((e, i) => (
                   <span key={i + "tags"} className="tags-single">
-                    {e}
+                    {e.label}
                   </span>
                 ))}
               </div>

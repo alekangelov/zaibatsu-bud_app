@@ -35,7 +35,7 @@ const ComboTable: React.FC<TableProps> = ({ onClick, initialOpen = false }) => {
           <div className="col-md-9">
             <p>Combo Table Input</p>
           </div>
-          <div className="col">
+          <div className="col-md-0">
             <IconButton
               type={"button"}
               icon={open ? faChevronUp : faChevronDown}

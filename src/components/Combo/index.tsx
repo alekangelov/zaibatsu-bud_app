@@ -79,7 +79,12 @@ const NewEditCombo: React.FC<any> = () => {
                 .required("I mean, this is the whole point"),
               tags: yup
                 .array()
-                .of(yup.string())
+                .of(
+                  yup.object().shape({
+                    label: yup.string(),
+                    value: yup.string(),
+                  })
+                )
                 .min(1, "At least one tag, please."),
               inputs: yup
                 .string()
@@ -104,7 +109,7 @@ const NewEditCombo: React.FC<any> = () => {
                     <TagInput
                       parentClassName="col-md-4"
                       name="tags"
-                      label="Tags (hit enter after each tag)"
+                      label="Tags"
                     />
                     <TextInput
                       parentClassName="col-md-12"
