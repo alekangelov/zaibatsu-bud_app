@@ -7,7 +7,6 @@ import useHotkeys from "@reecelucas/react-use-hotkeys";
 
 const ViewCombo: React.FC = () => {
   const { combo: comboId } = useParams<{ combo: string }>();
-  console.log({ comboId });
   const { push } = useHistory();
   const { currentCombo, nextCombo, previousCombo } = useAppSelector((state) => {
     const currentCombo = state.combos.find((e) => e.id === comboId);
@@ -36,14 +35,11 @@ const ViewCombo: React.FC = () => {
   });
   useHotkeys("ArrowDown", () => {
     if (nextCombo) {
-      console.log(currentCombo?.id, nextCombo.id);
       push(`/combo-view/${nextCombo.id}`);
     }
   });
   useHotkeys("ArrowUp", () => {
     if (previousCombo) {
-      console.log(currentCombo?.id, previousCombo.id);
-
       push(`/combo-view/${previousCombo.id}`);
     }
   });

@@ -14,6 +14,8 @@ export const saveCombo = (data: string, title: string = "Combo") => {
 
 const toastListener = (event: any, data: any) => toast(data);
 
+const downloadListener = (event: any, data: number) => console.log(data);
+
 const updateListener = (event: any, data: boolean) =>
   data &&
   confirm(
@@ -41,8 +43,10 @@ export const fileOpen = (cb: (reply: any) => any) => {
 export const updateService = () => {
   ipcRenderer.send("checkUpdates");
   ipcRenderer.on("updateResponse", updateListener);
+  ipcRenderer.on("downloadProgress", downloadListener);
   return () => {
     ipcRenderer.off("updateResponse", updateListener);
+    ipcRenderer.off("downloadProgress", downloadListener);
   };
 };
 

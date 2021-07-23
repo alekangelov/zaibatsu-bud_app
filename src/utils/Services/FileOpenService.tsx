@@ -3,7 +3,6 @@ import { useHistory } from "react-router";
 import { fileOpen } from "../comms";
 
 export default function FileOpenService() {
-  const { push } = useHistory();
   const cb = (reply: any) => {
     console.log(reply);
   };

@@ -23,7 +23,6 @@ const CharacterOverview: React.FC = () => {
     onSubmit: (values) => {},
   });
   const { character, combos } = useAppSelector((state) => {
-    console.log();
     const character = state.characters.find((e) => e.id === parseInt(id));
     const combos = state.combos.filter((e) => e.character === parseInt(id));
     return { character, combos };
@@ -31,7 +30,6 @@ const CharacterOverview: React.FC = () => {
   const { push } = useHistory();
   const sortFn = React.useCallback(
     (sortable: ComboState = []) => {
-      console.log({ sortable, sortBy: formik.values.sort });
       if (formik.values.sort) {
         if (formik.values.sort === "date") return sortable.reverse();
         return sortable.sort((a, b) => {
