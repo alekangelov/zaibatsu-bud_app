@@ -2,8 +2,6 @@ import * as React from "react";
 import { useField, useFormikContext } from "formik";
 import clsx from "clsx";
 import mergeProps from "merge-props";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 import tags from "../../data/tags";
 interface TextInputProps

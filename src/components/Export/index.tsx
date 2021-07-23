@@ -2,11 +2,7 @@ import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { Form, Formik, useFormikContext } from "formik";
 import * as React from "react";
 import useAppSelector from "../../global/helpers/useAppSelector";
-import {
-  filterLowercaseTags,
-  sortAndFilter,
-  SortFitlerProps,
-} from "../../utils/common";
+import { sortAndFilter, SortFitlerProps } from "../../utils/common";
 import { saveCombo } from "../../utils/comms";
 import ComboPreview from "../ComboSuite/ComboPreview";
 import { TextInput, SelectInput } from "../FormComponents";
