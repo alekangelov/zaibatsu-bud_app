@@ -156,16 +156,27 @@ const comboValidation = {
 
 export type SortFitlerProps = {
   sort?: "" | "date" | "damage" | "alphabetic";
+  character?: number;
   name?: string;
-  tags?: Tags[];
+  tags?: Tags;
 };
 
-export const transformTags = pluck("value");
+export const transformTags: (input: Tags) => string[] = pluck<string>("value");
 
 export const sortAndFilter =
   (combos: ComboState) => (props: SortFitlerProps) => {
-    const { sort, name: nameProps = "", tags: tagsProps = [] } = props;
+    const {
+      sort,
+      name: nameProps = "",
+      tags: tagsProps = [],
+      character: characterProps,
+    } = props;
     let newCombos = [...combos].reverse();
+    if (typeof characterProps !== "undefined") {
+      newCombos = newCombos.filter(
+        (combo) => combo.character === characterProps
+      );
+    }
     if (sort) {
       if (sort === "date") return newCombos.reverse();
       newCombos = newCombos.sort((a, b) => {

@@ -2,7 +2,11 @@ import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { Form, Formik, useFormikContext } from "formik";
 import * as React from "react";
 import useAppSelector from "../../global/helpers/useAppSelector";
-import { filterLowercaseTags } from "../../utils/common";
+import {
+  filterLowercaseTags,
+  sortAndFilter,
+  SortFitlerProps,
+} from "../../utils/common";
 import { saveCombo } from "../../utils/comms";
 import ComboPreview from "../ComboSuite/ComboPreview";
 import { TextInput, SelectInput } from "../FormComponents";
@@ -11,12 +15,8 @@ import dayjs from "dayjs";
 
 const ExportInner = () => {
   const {
-    values: { tag, character, name },
-  } = useFormikContext<{
-    tag: string;
-    character: Number;
-    name: string;
-  }>();
+    values: { tags, character, name },
+  } = useFormikContext<SortFitlerProps>();
   const { characterSelectItems, filteredCombos } = useAppSelector((state) => ({
     characterSelectItems: [
       { label: "All", value: -1 },
@@ -25,16 +25,7 @@ const ExportInner = () => {
         value: e.id,
       })),
     ],
-    filteredCombos: state.combos.filter((e) => {
-      const condition = !tag
-        ? true
-        : filterLowercaseTags(tag)(e.tags) &&
-          e.name.toLowerCase().includes(name.toLowerCase()) &&
-          character === -1
-        ? true
-        : e.character === character;
-      return condition;
-    }),
+    filteredCombos: sortAndFilter(state.combos)({ tags, character, name }),
   }));
   return (
     <div className="export m-t-5">
