@@ -49,6 +49,7 @@ body {
 .btn {
   border-radius: 0.5rem;
   background: none;
+  min-width: max-content;
   color: white;
   display: flex;
   outline: none;

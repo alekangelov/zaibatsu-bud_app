@@ -138,4 +138,118 @@
     padding-bottom: 0;
     gap: 0.5rem;
   }
+
+  &.error {
+    .select {
+      &__control {
+        background: rgba($error, 0.025) !important;
+        min-height: 46px !important;
+        border-color: rgba(white, 0.05) !important;
+        &--is-focused {
+          box-shadow: 0 0 1px rgba(white, 1) !important;
+          border: 1px solid rgba(white, 0.05) !important;
+        }
+        &--menu-is-open {
+          box-shadow: 0 0 1px rgba(white, 1) !important;
+          border: 1px solid rgba(white, 0.05) !important;
+
+          background: rgba(white, 0.05) !important;
+        }
+      }
+      &__multi {
+        &-value {
+          &__label {
+            font-family: $fontPrimary;
+          }
+          &__remove {
+            cursor: pointer;
+            svg {
+              color: black;
+            }
+            &:hover {
+              background: $error !important;
+              svg {
+                color: white;
+              }
+            }
+          }
+        }
+      }
+      &__menu {
+        background: rgba(white, 0.15) !important;
+        border: 1px solid rgba(white, 0.1) !important;
+        backdrop-filter: blur(10px);
+        &-notice {
+          color: white !important;
+        }
+      }
+      &__option {
+        cursor: pointer;
+
+        &--is-focused {
+          background: rgba(white, 0.15) !important;
+        }
+      }
+    }
+  }
+}
+
+.select {
+  &__control {
+    min-width: 160px;
+    background: rgba(white, 0.05) !important;
+    min-height: 46px !important;
+    border-color: rgba(white, 0.05) !important;
+    &--is-focused {
+      background: rgba(white, 0.1) !important;
+
+      box-shadow: 0 0 0 rgba(white, 1) !important;
+      border: 1px solid rgba(white, 0.05) !important;
+    }
+    &--menu-is-open {
+      box-shadow: 0 0 0 rgba(white, 1) !important;
+      border: 1px solid rgba(white, 0.05) !important;
+
+      background: rgba(white, 0.1) !important;
+    }
+  }
+  &__single {
+    &-value {
+      color: white !important;
+    }
+  }
+  &__multi {
+    &-value {
+      &__label {
+        font-family: $fontPrimary;
+      }
+      &__remove {
+        cursor: pointer;
+        svg {
+          color: black;
+        }
+        &:hover {
+          background: $error !important;
+          svg {
+            color: white;
+          }
+        }
+      }
+    }
+  }
+  &__menu {
+    background: rgba(white, 0.15) !important;
+    border: 1px solid rgba(white, 0.1) !important;
+    backdrop-filter: blur(10px);
+    &-notice {
+      color: white !important;
+    }
+  }
+  &__option {
+    cursor: pointer;
+
+    &--is-focused {
+      background: rgba(white, 0.15) !important;
+    }
+  }
 }

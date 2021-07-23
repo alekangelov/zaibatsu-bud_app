@@ -17,9 +17,11 @@ import {
   reduce,
   values,
   mapObjIndexed,
+  pluck,
 } from "ramda";
 import { nanoid } from "nanoid";
-import { Combo } from "../global/reducers/mainReducerTypes";
+import { Combo, ComboState } from "../global/reducers/mainReducerTypes";
+import { Tags } from "../data/tags";
 
 export function anything<T>(a: T): T {
   return a;
@@ -151,3 +153,50 @@ const comboValidation = {
   character: (e: any) => typeof e === "number" && e >= 0,
   id: (e: any) => Boolean(e) && typeof e === "string",
 };
+
+export type SortFitlerProps = {
+  sort?: "" | "date" | "damage" | "alphabetic";
+  name?: string;
+  tags?: Tags[];
+};
+
+export const transformTags = pluck("value");
+
+export const sortAndFilter =
+  (combos: ComboState) => (props: SortFitlerProps) => {
+    const { sort, name: nameProps = "", tags: tagsProps = [] } = props;
+    let newCombos = [...combos].reverse();
+    if (sort) {
+      if (sort === "date") return newCombos.reverse();
+      newCombos = newCombos.sort((a, b) => {
+        switch (sort) {
+          case "damage":
+            return b.damage - a.damage;
+          case "alphabetic":
+            if (a.name < b.name) {
+              return -1;
+            }
+            if (a.name > b.name) {
+              return 1;
+            }
+            return 0;
+          default:
+            return 0;
+        }
+      });
+    }
+    if (nameProps) {
+      newCombos = newCombos.filter(({ name }) =>
+        name.toLowerCase().includes(nameProps)
+      );
+    }
+    if (tagsProps.length) {
+      newCombos = newCombos.filter(({ tags }) =>
+        transformTags(tags).some((tag) =>
+          transformTags(tagsProps).includes(tag)
+        )
+      );
+    }
+
+    return newCombos;
+  };

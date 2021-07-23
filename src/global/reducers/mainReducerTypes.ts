@@ -1,4 +1,5 @@
 import characters from "../../data/characters";
+import { Tags } from "../../data/tags";
 
 export enum MainReducerActionTypes {
   ADD_COMBO = "@ZAI/ADD_COMBO",
@@ -13,7 +14,7 @@ export interface Combo {
   name: string;
   inputs: string;
   damage: number;
-  tags: string[];
+  tags: Tags;
   character: Character["id"];
   id: string;
 }
