@@ -15,7 +15,6 @@ const persistConfig = {
   key: "root",
   version: 2,
   migrate: (state: MigrationState) => {
-    console.log({ state });
     return Promise.resolve({
       ...state,
       characters: characters,
