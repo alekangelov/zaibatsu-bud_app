@@ -1,6 +1,6 @@
 {
   "name": "zaibatsu-bud",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "private": false,
   "license": "MIT",
   "repository": "git@github.com:alekangelov/zaibatsu-bud_app.git",
@@ -18,7 +18,7 @@
   },
   "build": {
     "productName": "Zaibatsu Bud",
-    "appId": "com.electron.zaibatsu-bud_app",
+    "appId": "com.alekangelov.ZaibatsuBud",
     "publish": "github",
     "dmg": {
       "contents": [
@@ -42,10 +42,14 @@
       ]
     },
     "appImage": {
-      "license": "LICENSE"
+      "license": "LICENSE",
+      "target": "nsis",
+      "requestedExecutionLevel": "requireAdministrator"
     },
     "nsis": {
-      "createDesktopShortcut": "always",
+      "guid": "3478dad0-f768-412b-b7f3-a18e481e7f9b",
+      "oneClick": true,
+      "perMachine": true,
       "license": "LICENSE"
     },
     "directories": {
@@ -139,7 +143,7 @@
     "craco-esbuild": "^0.3.2",
     "cross-env": "^7.0.3",
     "electron": "^12.0.6",
-    "electron-builder": "^22.10.5",
+    "electron-builder": "^22.11.9",
     "foreman": "^3.0.1",
     "nodemon": "^2.0.7",
     "sass": "^1.32.12",
