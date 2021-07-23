@@ -43,11 +43,7 @@ const updates = (mainWindow: BrowserWindow, __dirname: string) => {
   ipcMain.on("doUpdate", (event) => {
     try {
       if (process.env.NODE_ENV !== "development") {
-        autoUpdater.quitAndInstall();
-        setTimeout(() => {
-          app.relaunch();
-          app.exit(0);
-        }, 6000);
+        setImmediate(() => autoUpdater.quitAndInstall());
       }
     } catch (e) {
       dialog.showErrorBox("Error", "Failed to install updates");
@@ -57,7 +53,7 @@ const updates = (mainWindow: BrowserWindow, __dirname: string) => {
     console.error(info);
   });
 
-  autoUpdater.on("update-available", (info) => {
+  autoUpdater.on("update-downloaded", (info) => {
     mainWindow.webContents.send("updateResponse", true);
   });
   autoUpdater.on("download-progress", (progressObj: ProgressInfo) => {
