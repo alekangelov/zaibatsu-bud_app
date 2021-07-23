@@ -1,6 +1,8 @@
 {
   "name": "zaibatsu-bud",
   "version": "0.4.2",
+  "author": "Alek Angelov",
+  "description": "The only tool you'll need for your combos.",
   "private": false,
   "license": "MIT",
   "repository": "git@github.com:alekangelov/zaibatsu-bud_app.git",
