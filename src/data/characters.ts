@@ -305,14 +305,10 @@ const characters = [
     image: "/images/characters/",
     thumb: "/images/characters/",
   },
-].map((e) => {
-  const x = {
-    ...e,
-    image: `/images/characters/${e.name.split(" ")[0].toLowerCase()}.png`,
-    thumb: `/images/characters/${e.name.split(" ")[0].toLowerCase()}_thumb.png`,
-  };
-  console.log(x);
-  return x;
-});
+].map((e) => ({
+  ...e,
+  image: `/images/characters/${e.name.split(" ")[0].toLowerCase()}.png`,
+  thumb: `/images/characters/${e.name.split(" ")[0].toLowerCase()}_thumb.png`,
+}));
 
 export default characters;

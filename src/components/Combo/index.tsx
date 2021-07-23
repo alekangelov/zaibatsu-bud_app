@@ -113,7 +113,6 @@ const NewEditCombo: React.FC<any> = () => {
                     />
                     <ComboTable
                       onClick={(e) => {
-                        console.log(formik.values);
                         formik.setFieldValue(
                           "inputs",
                           `${formik.values.inputs} ${e}`

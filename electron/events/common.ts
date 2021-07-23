@@ -47,7 +47,6 @@ const makeNewWindow = (
 
   // const menu = Menu.buildFromTemplate(menuTemplate);
   // Menu.setApplicationMenu(menu);
-  console.log(buildURL(atPath));
   mainWindow.loadURL(buildURL(atPath));
   return mainWindow;
 };
@@ -59,7 +58,6 @@ function common(mainWindow: BrowserWindow, __dirname: string) {
   });
   ipcMain.handle("maximize", (event) => {
     const window = BrowserWindow.fromId(event.frameId);
-    console.log(window.isMaximized());
     if (window.isMaximized()) {
       return window.restore();
     }
@@ -94,8 +92,8 @@ function common(mainWindow: BrowserWindow, __dirname: string) {
     const window = makeNewWindow(arg, DIMENSIONS, __dirname, true);
   });
   ipcMain.on("getNodeEnv", (event) => {
-    console.log("nodeenv");
-    event.sender.send("NODE_ENV", process.env.NODE_ENV);
+    console.log("nodeenv: " + process.env.NODE_ENV || "production");
+    event.sender.send("NODE_ENV", process.env.NODE_ENV || "production");
   });
 }
 
