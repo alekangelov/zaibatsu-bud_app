@@ -4,6 +4,7 @@ import { characterReducer, comboReducer } from "./reducers";
 import electronStore from "./storageHelpers/electronStore";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { IState } from "./reducers/mainReducerTypes";
+import characters from "../data/characters";
 
 interface MigrationState extends IState {
   _persist: PersistState;
@@ -16,6 +17,7 @@ const persistConfig = {
   migrate: (state: MigrationState) => {
     return Promise.resolve({
       ...state,
+      characters: characters,
       combos: [...state.combos],
     });
   },
