@@ -1,6 +1,5 @@
-import React, { ReactElement } from "react";
+import * as React from "react";
 import ReactMarkdown from "react-markdown";
-import Markdown from "react-markdown";
 import useAppSelector from "../../global/helpers/useAppSelector";
 
 const md = (version: string) =>
@@ -43,9 +42,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.`;
 
-interface Props {}
-
-function About({}: Props): ReactElement {
+function About(): React.ReactElement {
   const version = useAppSelector((state) => state.about.version);
   return (
     <div className="container p-t-10 p-b-10">
