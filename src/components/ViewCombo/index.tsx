@@ -54,6 +54,8 @@ const ViewCombo: React.FC = () => {
     <ComboPreview
       combo={currentCombo.inputs}
       num={1}
+      damage={currentCombo.damage}
+      tags={currentCombo.tags}
       name={currentCombo.name}
       comboView
     />
