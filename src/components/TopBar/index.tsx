@@ -4,6 +4,7 @@ import {
   faFileExport,
   faFileImport,
   faHome,
+  faInfoCircle,
   faTimes,
   faWindowMaximize,
   faWindowMinimize,
@@ -71,6 +72,13 @@ export default function TopBar() {
             onClick: (event) => {
               event.preventDefault();
               push("/export");
+            },
+          },
+          {
+            title: <FontAwesomeIcon icon={faInfoCircle} color="white" />,
+            onClick: (event) => {
+              event.preventDefault();
+              push("/about");
             },
           },
         ]}

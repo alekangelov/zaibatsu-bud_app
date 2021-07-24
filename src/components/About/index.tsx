@@ -1,4 +1,10 @@
-# Zaibatsu Bud - The Combo Toolbag for Tekken
+import React, { ReactElement } from "react";
+import ReactMarkdown from "react-markdown";
+import Markdown from "react-markdown";
+import useAppSelector from "../../global/helpers/useAppSelector";
+
+const md = (version: string) =>
+  `# Zaibatsu Bud ${version} - The Combo Toolbag for Tekken
 
 Zaibatsu bud is a combo aggregator for Tekken that works great for practicing combos!
 
@@ -35,4 +41,17 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+SOFTWARE.`;
+
+interface Props {}
+
+function About({}: Props): ReactElement {
+  const version = useAppSelector((state) => state.about.version);
+  return (
+    <div className="container p-t-10 p-b-10">
+      <ReactMarkdown children={md(version)} />
+    </div>
+  );
+}
+
+export default About;

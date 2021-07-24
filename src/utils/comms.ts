@@ -50,6 +50,14 @@ export const updateService = () => {
   };
 };
 
+export const versionService = (cb = (event: any, version: string) => {}) => {
+  ipcRenderer.send("getVersion");
+  ipcRenderer.on("VERSION", cb);
+  return () => {
+    ipcRenderer.off("VERSION", cb);
+  };
+};
+
 const envListener = (event: any, env: string) =>
   console.log(`IPC Main Env: ${env}`);
 

@@ -15,6 +15,7 @@ import NotificationService from "./utils/Services/NotificationService";
 import UpdateService from "./utils/Services/UpdateService";
 import AlertProvider from "react-alert-async";
 import EnvService from "./utils/Services/EnvService";
+import VersionService from "./utils/Services/VersionService";
 const { store, persistor } = makeStore();
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
             <UpdateService />
             <NotificationService />
             <EnvService />
+            <VersionService />
             <AutoHideScrollbar>
               <AnimatedSwitch />
             </AutoHideScrollbar>

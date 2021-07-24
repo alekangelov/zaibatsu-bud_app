@@ -1,10 +1,4 @@
-import {
-  BrowserWindow,
-  dialog,
-  ipcMain,
-  screen,
-  IpcMainInvokeEvent,
-} from "electron";
+import { BrowserWindow, dialog, ipcMain, screen } from "electron";
 import * as fs from "fs";
 import { buildURL } from "../main";
 
@@ -94,6 +88,10 @@ function common(mainWindow: BrowserWindow, __dirname: string) {
   ipcMain.on("getNodeEnv", (event) => {
     console.log("nodeenv: " + process.env.NODE_ENV || "production");
     event.sender.send("NODE_ENV", process.env.NODE_ENV || "production");
+  });
+  ipcMain.on("getVersion", (event) => {
+    console.log("version: " + process.env.npm_package_version);
+    event.sender.send("VERSION", process.env.npm_package_version || "0.0.0");
   });
 }
 
