@@ -7,7 +7,7 @@ const md = (version: string) =>
 
 Zaibatsu bud is a combo aggregator for Tekken that works great for practicing combos!
 
-![Akuma doing a sick ass combo](https://raw.githubusercontent.com/alekangelov/zaibatsu-bud_app/main/SCREENSHOT.png)
+![Akuma doing a sick ass combo](https://raw.githubusercontent.com/alekangelov/zaibatsu-bud_app/main/SCREENSHOT.jpg)
 
 ## Features
 
