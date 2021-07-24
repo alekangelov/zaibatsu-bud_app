@@ -2,8 +2,6 @@
 
 I can't thank you enough for wanting to contribute!
 
-Working on your first Pull Request? You can learn how from this free series How to Contribute to an Open Source Project on GitHub
-
 ## Project setup
 
 1. Fork and clone the repo
