@@ -6,6 +6,7 @@ import NewEditCombo from "../components/Combo";
 import ViewCombo from "../components/ViewCombo";
 import Import from "../components/Import";
 import Export from "../components/Export";
+import About from "../components/About";
 
 export const AnimatedSwitch: React.FC = () => {
   return (
@@ -27,6 +28,9 @@ export const AnimatedSwitch: React.FC = () => {
       </Route>
       <Route path="/export" exact>
         <Export />
+      </Route>
+      <Route path="/about" exact>
+        <About />
       </Route>
     </Switch>
   );

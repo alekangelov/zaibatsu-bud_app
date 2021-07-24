@@ -1,6 +1,6 @@
 import { createStore, combineReducers } from "redux";
 import { persistStore, persistReducer, PersistState } from "redux-persist";
-import { characterReducer, comboReducer } from "./reducers";
+import { aboutReducer, characterReducer, comboReducer } from "./reducers";
 import electronStore from "./storageHelpers/electronStore";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { IState } from "./reducers/mainReducerTypes";
@@ -26,6 +26,7 @@ const persistConfig = {
 const combinedReducers = combineReducers({
   combos: comboReducer,
   characters: characterReducer,
+  about: aboutReducer,
 });
 
 const persistedReducer = persistReducer<any, any>(

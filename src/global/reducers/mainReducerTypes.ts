@@ -1,5 +1,6 @@
 import characters from "../../data/characters";
 import { Tags } from "../../data/tags";
+import { AboutState } from "./aboutReducer";
 
 export enum MainReducerActionTypes {
   ADD_COMBO = "@ZAI/ADD_COMBO",
@@ -25,6 +26,7 @@ export interface ComboState extends ComboArray {}
 
 export interface IState {
   combos: ComboState;
+  about: AboutState;
   characters: typeof characters;
 }
 
